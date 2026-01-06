@@ -8,6 +8,16 @@ Route::get('/', function(){
     return view('pages.landing');
 });
 
+// Route Admin
+// Route Tampilan Dashboard
+Route::get('/admin/dashboard', function(){
+    return view('pages.admin.dashboard');
+})->name('admin.dashboard');
+// Route Tampilan Products
+Route::get('/admin/products', function(){
+    return view('pages.admin.products');
+})->name('admin.products');
+
 // Route::get('/', function () {
 //     return view('welcome');
 // })->name('home');
