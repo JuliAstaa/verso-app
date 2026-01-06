@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SizeController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -11,6 +15,13 @@ Route::get('/', function () {
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::prefix('admin')->name('admin.')->group(function (){
+    Route::resource('sizes', SizeController::class);
+    Route::resource('colors', ColorController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
