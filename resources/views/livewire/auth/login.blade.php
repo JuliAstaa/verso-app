@@ -1,59 +1,89 @@
-<x-layouts.auth>
-    <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
-
-        <!-- Session Status -->
-        <x-auth-session-status class="text-center" :status="session('status')" />
-
-        <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
-            @csrf
-
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                :label="__('Email address')"
-                :value="old('email')"
-                type="email"
-                required
-                autofocus
-                autocomplete="email"
-                placeholder="email@example.com"
-            />
-
-            <!-- Password -->
-            <div class="relative">
-                <flux:input
-                    name="password"
-                    :label="__('Password')"
-                    type="password"
-                    required
-                    autocomplete="current-password"
-                    :placeholder="__('Password')"
-                    viewable
-                />
-
-                @if (Route::has('password.request'))
-                    <flux:link class="absolute top-0 text-sm end-0" :href="route('password.request')" wire:navigate>
-                        {{ __('Forgot your password?') }}
-                    </flux:link>
-                @endif
+{{-- Container utama: Diubah dari overflow-hidden ke overflow-y-auto agar bisa di-scroll di HP --}}
+<div class="fixed inset-0 bg-white flex items-center justify-center z-[9999] overflow-y-auto md:overflow-hidden font-poppins p-4">
+    
+    {{-- Card Utama: w-full pada mobile, max-w pada desktop --}}
+    <div class="bg-white w-full h-auto md:h-[90vh] max-w-[1200px] max-h-[750px] overflow-hidden flex flex-col md:flex-row">
+        
+        {{-- Sisi Kiri: Ilustrasi - Hidden di Mobile, Flex di Desktop --}}
+        <div class="hidden md:flex md:w-1/2 bg-white flex-col py-8">  
+            
+            <div class="w-full flex justify-center">
+                <h1 class="text-4xl lg:text-6xl font-serif text-brand-500 tracking-[0.2em] leading-none">vérso</h1>
             </div>
 
-            <!-- Remember Me -->
-            <flux:checkbox name="remember" :label="__('Remember me')" :checked="old('remember')" />
-
-            <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
-                    {{ __('Log in') }}
-                </flux:button>
+            <div class="flex-grow flex flex-col items-center justify-center">
+                <img src="{{ asset('images/login/signUp.svg') }}" 
+                        alt="Verso Illustration" 
+                        class="w-full max-w-[400px] lg:max-w-[500px] mx-auto">
+                
+                <div class="text-center px-4">
+                    <h2 class="text-xl lg:text-2xl font-bold text-gray-800 mb-2">Elevate Your Everyday Style</h2>
+                    <p class="text-gray-400 text-sm lg:text-md font-light">Thoughtfully designed clothing for modern lifestyles</p>
+                </div>
             </div>
-        </form>
+        </div>
 
-        @if (Route::has('register'))
-            <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-zinc-600 dark:text-zinc-400">
-                <span>{{ __('Don\'t have an account?') }}</span>
-                <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
+        {{-- Sisi Kanan: Form Login - Full width di Mobile --}}
+        <div class="w-full md:w-1/2 bg-white flex flex-col items-center justify-center p-6 md:p-10">
+            
+            {{-- Logo muncul di mobile saja karena sisi kiri hilang --}}
+            <div class="md:hidden mb-8">
+                <h1 class="text-6xl font-serif text-brand-500 tracking-[0.2em]">vérso</h1>
             </div>
-        @endif
+
+            <div class="w-full max-w-[380px]">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Sign In</h3>
+                    <p class="text-[9px] text-gray-400 uppercase tracking-[0.15em] leading-relaxed">
+                        Sign in to access your guided meditations and personal journey
+                    </p>
+                </div>
+
+                <form action="{{ route('login.submit') }}" method="POST" class="space-y-4 md:space-y-5">
+                    @csrf
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-600 mb-1.5 uppercase tracking-widest">Username</label>
+                        <input type="text" name="username" 
+                        class="w-full px-5 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 focus:bg-white focus:ring-2 focus:ring-[#634832]/20 focus:border-[#634832] outline-none transition-all text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-600 mb-1.5 uppercase tracking-widest">Password</label>
+                        <input type="password" name="password" 
+                        class="w-full px-5 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 focus:bg-white focus:ring-2 focus:ring-[#634832]/20 focus:border-[#634832] outline-none transition-all text-sm">
+                    </div>
+
+                    <div class="flex items-center justify-between text-[10px] text-gray-400 px-1">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" 
+                            class="w-3.5 h-3.5 border border-gray-200 rounded-sm focus:ring-0 transition-all cursor-pointer">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="hover:text-brand-500 underline underline-offset-4">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" 
+                            class="w-full bg-brand-500 text-white py-3.5 md:py-4 mt-2 rounded-xl font-bold hover:bg-[#4d3827] transition-all active:scale-[0.98] cursor-pointer">
+                        Log In
+                    </button>
+
+                    <div class="relative flex items-center py-2 md:py-3">
+                        <div class="flex-grow border-t border-gray-100"></div>
+                        <span class="flex-shrink mx-4 text-gray-300 text-[9px] font-bold uppercase tracking-widest">Or</span>
+                        <div class="flex-grow border-t border-gray-100"></div>
+                    </div>
+
+                    <button type="button" 
+                            class="w-full flex items-center justify-center gap-3 border border-gray-200 py-3 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 transition cursor-pointer">
+                        <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-4 h-4" alt="Google">
+                        Sign In with Google
+                    </button>
+                </form>
+
+                <p class="text-center text-xs text-gray-400 mt-6 md:mt-8">
+                    Don't have an account? <a href="{{ route('register') }}" class="font-bold text-brand-500 hover:underline underline-offset-4">Sign Up</a>
+                </p>
+            </div>
+        </div>
     </div>
-</x-layouts.auth>
+</div>
