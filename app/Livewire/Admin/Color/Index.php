@@ -69,7 +69,6 @@ class Index extends Component
                     'hex_code' => Str::upper($this->hex_code)
                 ]);
                 $this->reset(['name', 'hex_code', 'colorId']);
-                session()->flash('success', 'Warna berhasil diupdate!');
             } else {
                 // --- CREATE MODE ---
                 Color::create([
@@ -77,7 +76,6 @@ class Index extends Component
                     'hex_code' => Str::upper($this->hex_code)
                 ]);
                 $this->reset(['name', 'hex_code', 'colorId']);
-                session()->flash('success', 'Warna berhasil ditambahkan!');
             }
 
             
