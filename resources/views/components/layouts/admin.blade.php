@@ -25,6 +25,9 @@
                 </main>
 
             </div>
-        </div>
+        @livewireScripts
+    
+        @include('components.sweet-alert')
+        <x-sweet-alert /> 
     </body>
 </html>
