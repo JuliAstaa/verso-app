@@ -8,10 +8,29 @@ use App\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
+use Illuminate\Http\Request;
 
 Route::get('/', function(){
     return view('pages.landing');
-});
+})->name('home');
+
+Route::get('/register', function () {
+    return view('livewire.auth.register');
+})->name('register');
+
+Route::get('/login', function () {
+    return view('livewire.auth.login');
+})->name('login');
+
+// --- PROSES REGISTER ---
+Route::post('/register-proses', function (Request $request) {
+    return redirect()->route('login')->with('success', 'Akun berhasil dibuat!');
+})->name('register.submit');
+
+// --- PROSES LOGIN ---
+Route::post('/login-proses', function (Request $request) {
+    return redirect()->route('home');
+})->name('login.submit');
 
 // Route Admin
 // Route Tampilan Dashboard
