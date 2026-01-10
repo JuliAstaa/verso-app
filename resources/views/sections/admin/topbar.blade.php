@@ -5,8 +5,8 @@
         </div>
 
         <div class="hidden sm:block">
-            <p class="text-sm font-semibold text-gray-800 group-hover:text-brand-500 transition-colors line-clamp-1">Emalia Nigga</p>
-            <p class="text-[11px] text-gray-400 uppercase tracking-wider font-medium">Admin</p>
+            <p class="text-sm font-semibold text-gray-800 group-hover:text-brand-500 transition-colors line-clamp-1">{{ Auth::user()->name }}</p>
+            <p class="text-[11px] text-gray-400 uppercase tracking-wider font-medium">{{ Auth::user()->role }}</p>
         </div>
     </a>
 </header>
