@@ -1,15 +1,15 @@
 <x-layouts.app title="Verso-App">
     <x-navbar />
 
-    @include('sections.hero')
+    @include('sections.landing.hero')
 
-    @include('sections.categories')
+    @include('sections.landing.categories')
     
-    @include('sections.product-section')
+    @include('sections.landing.product-section')
     
-    @include('sections.about')
+    @include('sections.landing.about')
 
-    @include('sections.advantages')
+    @include('sections.landing.advantages')
     
     <x-footer />
 </x-layouts.app>
