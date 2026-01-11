@@ -6,7 +6,11 @@ use Livewire\Volt\Volt;
 
 Route::get('/', function(){
     return view('pages.landing');
-});
+})->name('pages.home');
+
+Route::get('/product-detail', function(){
+    return view('pages.product-detail');
+})->name('pages.product-detail');
 
 // Route Admin
 // Route Tampilan Dashboard
