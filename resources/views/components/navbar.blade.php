@@ -47,8 +47,12 @@
                 </div>
 
                 <div class="flex items-center gap-3 md:gap-5 w-full lg:w-auto justify-center md:justify-end">
-                    <x-button variant="outline" class="flex-1 lg:flex-none text-sm">Login</x-button>
-                    <x-button variant="solid" class="flex-1 lg:flex-none text-sm">Sign Up</x-button>
+                    <a href="{{ route('') }}">
+                        <x-button variant="outline" class="flex-1 lg:flex-none text-sm">Login</x-button>
+                    </a>
+                    <a href="">
+                        <x-button variant="solid" class="flex-1 lg:flex-none text-sm">Sign Up</x-button>
+                    </a>
                 </div>
             </div>
         </div>
