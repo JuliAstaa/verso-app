@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class ProductList extends Component
 {
+    public $showLoadMore = true;
     public $limit = 12;
 
     public function loadMore()

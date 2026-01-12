@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Livewire\Auth\Login;
+
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -12,6 +13,11 @@ use Illuminate\Http\Request;
 
 Route::get('/', function(){
     return view('pages.landing');
+})->name('pages.home');
+
+Route::get('/product-detail', function(){
+    return view('pages.product-detail');
+})->name('pages.product-detail');
 })->name('home');
 
 Route::get('/register', function () {
@@ -59,6 +65,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function (){
     Route::get('dashboard', function(){
         return view('pages.admin.dashboard');
     })->name('dashboard');
+    // Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+    // Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+
     Route::resource('sizes', SizeController::class);
     Route::resource('colors', ColorController::class);
     Route::resource('categories', CategoryController::class);
