@@ -20,12 +20,24 @@
             
             <div>
                 <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">
+                    CODE
+                </label>
+                <input 
+                    wire:model="code" 
+                    type="text" 
+                    placeholder="e.g. XL"
+                    class="w-full bg-gray-50 text-gray-900 text-sm rounded-xl border-none focus:ring-2 focus:ring-[#5B4636]/20 focus:bg-white block p-4 shadow-sm placeholder-gray-300 transition-all"
+                >
+                @error('code') <span class="text-red-500 text-xs mt-1 ml-1 block">{{ $message }}</span> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">
                     Size Name
                 </label>
                 <input 
                     wire:model="name" 
                     type="text" 
-                    placeholder="e.g. XL"
+                    placeholder="e.g. Xtra Large"
                     class="w-full bg-gray-50 text-gray-900 text-sm rounded-xl border-none focus:ring-2 focus:ring-[#5B4636]/20 focus:bg-white block p-4 shadow-sm placeholder-gray-300 transition-all"
                 >
                 @error('name') <span class="text-red-500 text-xs mt-1 ml-1 block">{{ $message }}</span> @enderror

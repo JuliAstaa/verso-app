@@ -89,8 +89,7 @@ class Index extends Component
         }
     }
     
-    public function cancel()
-{
+    public function cancel(){
     // 1. Reset Form dulu
     $this->reset(['name', 'hex_code', 'colorId']);
     

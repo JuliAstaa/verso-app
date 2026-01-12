@@ -20,7 +20,7 @@
                 </svg>
             </span>
             <input type="text" 
-                    placeholder="Search Size"
+                    placeholder="Search Category"
                     wire:model.live="search" 
                     class="w-full bg-brand-100 rounded-md py-2.5 ps-9 pe-4 text-[12px] focus:ring-1 focus:ring-brand-500 focus:bg-white transition-all outline-none"
             >
@@ -29,7 +29,6 @@
 
     <div class="flex flex-wrap items-center gap-2 shrink-0">
         
-      
         <div class="relative hidden lg:block">
             <div class="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-[12px] font-medium">
                 <span class="text-brand-500">Sort By: </span>
@@ -47,7 +46,7 @@
 
         <button wire:click="create" class="flex items-center gap-2 bg-brand text-white bg-brand-500 px-3 py-2 rounded-md text-sm font-medium  hover:brightness-110 active:scale-95 transition-all cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span class="whitespace-nowrap">Add Size</span>
+            <span class="whitespace-nowrap">Add Category</span>
         </button>
     </div>
 
