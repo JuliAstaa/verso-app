@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 
 Route::get('/', function(){
     return view('pages.landing');
+})->name('pages.home');
+
+Route::get('/product-detail', function(){
+    return view('pages.product-detail');
+})->name('pages.product-detail');
 })->name('home');
 
 Route::get('/register', function () {
