@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Size;
 
 use App\Models\Size;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,24 +15,15 @@ class Index extends Component
     public $isModalOpen = false;
     public $search = '';
     public $orderBy = 'desc';
-    public $name;
+    public $name, $code;
     public $sizeId = null;
-
-    protected $rules = [
-        'name' => 'required|string|max:10|unique:sizes,name'
-    ];
-
-    protected $messages = [
-        'name.required' => 'Nama ukuran wajib diisi.',
-        'name.unique' => 'Ukuran ini sudah ada di database'
-    ];
 
     public function updatingSearch() {
         $this->resetPage();
     }
 
     public function create() {
-        $this->reset('name');
+        $this->reset(['code', 'name']);
         $this->isModalOpen = true;
     }
 
@@ -40,29 +32,50 @@ class Index extends Component
         $color = Size::findOrFail($id);
         
         $this->sizeId = $id;          
+        $this->code = $color->code;    
         $this->name = $color->name;    
         
         $this->isModalOpen = true;     
     }
 
     public function cancel() {
-        $this->reset(['name', 'sizeId']);
+        $this->reset(['code', 'name', 'sizeId']);
         $this->isModalOpen = false;
     }
 
     public function save() {
         try {
-            $this->validate();
+            $validatedData = $this->validate([
+                'code' => [
+                    'required', 
+                    'string', 
+                    'max:5',
+                    Rule::unique('sizes', 'code')->ignore($this->sizeId) 
+                ],
+                'name' => [
+                    'required', 
+                    'string', 
+                    'max:10',
+                    Rule::unique('sizes', 'name')->ignore($this->sizeId)
+                ],
+            ], [
+                // Custom Messages (Opsional, pindahin dari $messages ke sini)
+                'name.required' => 'Nama ukuran wajib diisi.',
+                'name.unique' => 'Nama ukuran ini sudah ada.',
+                'code.unique' => 'Kode ukuran ini sudah ada.',
+            ]);
 
             if($this->sizeId) {
                 $size = Size::findOrFail($this->sizeId);
                 $size->update([
+                    'code' => Str::upper($this->code),
                     'name' => Str::upper($this->name),
-                ]);
-
-                $this->reset(['name', 'sizeId']);
+                    ]);
+                    
+                $this->reset(['code', 'name', 'sizeId']);
             } else {
                 Size::create([
+                    'code' => Str::upper($this->code),
                     'name'=> Str::upper($this->name),
                 ]);
             }

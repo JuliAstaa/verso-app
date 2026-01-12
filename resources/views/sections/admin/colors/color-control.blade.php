@@ -45,7 +45,7 @@
             </span>
         </div>
 
-        <button wire:click="create" class="flex items-center gap-2 bg-brand text-white bg-brand-500 px-3 py-2 rounded-md text-sm font-medium  hover:brightness-110 active:scale-95 transition-all">
+        <button wire:click="create" class="flex items-center gap-2 bg-brand text-white bg-brand-500 px-3 py-2 rounded-md text-sm font-medium  hover:brightness-110 active:scale-95 transition-all cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span class="whitespace-nowrap">Add Colors</span>
         </button>
