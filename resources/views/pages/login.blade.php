@@ -1,5 +1,5 @@
 <x-layouts.app title="Login-Verso">
-    @include
-
+    
+    <livewire:auth.login />
 
 </x-layouts.app>

@@ -16,11 +16,11 @@ Route::get('/', function(){
 })->name('home');
 
 Route::get('/register', function () {
-    return view('livewire.auth.register');
+    return view('pages.register');
 })->name('register');
 
 Route::get('/login', function () {
-    return view('livewire.auth.login');
+    return view('pages.login');
 })->name('login');
 
 // --- PROSES REGISTER ---
