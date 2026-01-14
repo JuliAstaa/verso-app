@@ -20,6 +20,7 @@ Route::get('/product-detail', function(){
 })->name('pages.product-detail');
 
 
+
 Route::get('/register', function () {
     return view('pages.register');
 })->name('register');
@@ -55,6 +56,12 @@ Route::post('/login-proses', function (Request $request) {
 // Route::view('dashboard', 'dashboard')
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/cart', function(){
+        return view('pages.product-cart');
+    })->name('pages.product-cart');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');

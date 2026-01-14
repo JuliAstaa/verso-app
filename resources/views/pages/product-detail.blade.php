@@ -91,7 +91,7 @@
 
         <div class="mt-60">
             <h1 class="w-fit text-xl border-b-2 border-brand-500 font-bold mb-6">Product Rekomendations</h1>
-            <livewire:product.product-list :showLoadMore="false" />
+            <livewire:product.product-list :showLoadMore="false" :limit="14" :columns="6" />
         </div>
     </main>
 
