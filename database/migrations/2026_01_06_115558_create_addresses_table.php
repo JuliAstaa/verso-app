@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('label')->comment('Rumah, Kantor, Kost, dll'); 
             $table->string('receiver_name'); 
             $table->string('phone'); 
-            $table->string('province'); 
-            $table->string('city');     
-            $table->string('district'); 
+            $table->char('province_code', 2); 
+            $table->char('city_code', 4);     
+            $table->char('district_code', 7); 
+            $table->char('village_code', 10);
             $table->string('postal_code');
             $table->text('detail');
             $table->boolean('is_default')->default(false);

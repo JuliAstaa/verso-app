@@ -22,13 +22,15 @@ class Login extends Component
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             session()->regenerate();
 
+            $defaultDesination = '/';
+
             // 3. Cek Role: Kalau Admin, tendang ke Dashboard/Product
             if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.dashboard'); // <-- Ganti sesuai route produkmu
+                $defaultDesination = route('admin.dashboard');
             }
 
             // Kalau Customer
-            return redirect('/');
+            return redirect()->intended($defaultDesination);
         }
 
         // 4. Kalau Gagal
