@@ -4,12 +4,16 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Auth\GoogleController;
 use App\Livewire\Auth\Login;
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use Illuminate\Http\Request;
+
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 Route::get('/', function(){
     return view('pages.landing');
@@ -51,10 +55,53 @@ Route::post('/login-proses', function (Request $request) {
 // Route::get('/', function () {
 //     return view('welcome');
 // })->name('home');
+Route::middleware(['auth'])->group(function () {
+    
+    // 1. Halaman Notice (Tampilan "Please Verify")
+    Route::get('/email/verify', function () {
+        // Kalau user iseng buka ini padahal udah verified, lempar ke dashboard
+        if (auth()->user()->hasVerifiedEmail()) {
+            return redirect()->intended('/dashboard');
+        }
+        
+        return view('auth.verify-email'); // Kita buat view ini di langkah 3
+    })->name('verification.notice');
+
+    // 2. Logic Handler Verifikasi (Ini yang link di email)
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/dashboard'); // Balik ke dashboard setelah sukses
+    })->middleware(['signed'])->name('verification.verify');
+
+    // 3. Tombol Resend Email (Kirim Ulang)
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        
+        return back()->with('message', 'Link verifikasi baru sudah dikirim ke email kamu!');
+    })->middleware(['throttle:6,1'])->name('verification.send'); // throttle: max 6x klik per menit biar ga spam
+
+});
+
+
+Route::get('/dashboard', function () {
+    // 1. Cek Role User yang sedang login
+    if (auth()->user()->role === 'admin') {
+        // Kalau Admin -> Lempar ke Admin Dashboard
+        return redirect()->route('admin.dashboard'); 
+    }
+
+    // 2. Kalau Customer -> Lempar ke Home / Landing Page
+    return redirect('/'); 
+
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::view('dashboard', 'dashboard')
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
+Route::controller(GoogleController::class)->group(function () {
+    Route::get('auth/google', 'redirectToGoogle')->name('google.login');
+    Route::get('auth/google/callback', 'handleGoogleCallback');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
@@ -67,7 +114,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function (){
     })->name('dashboard');
     // Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
     // Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-
+    Route::get('/profile', function () {
+        return view('pages.admin.profile');
+    })->name('profile');
     Route::resource('sizes', SizeController::class);
     Route::resource('colors', ColorController::class);
     Route::resource('categories', CategoryController::class);
