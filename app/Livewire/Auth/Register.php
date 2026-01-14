@@ -25,7 +25,7 @@ class Register extends Component
                 'name'     => $generatedName, 
                 'email'    => $this->email,
                 'password' => $this->password,
-                'role'     => 'admin',
+                'role'     => 'customer',
             ]);
 
             Auth::login($user);

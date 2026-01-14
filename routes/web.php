@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\UserController;
 use App\Livewire\Auth\Login;
 
 use Illuminate\Support\Facades\Route;
@@ -124,6 +125,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function (){
     Route::get('/profile', function () {
         return view('pages.admin.profile');
     })->name('profile');
+
+    Route::get('/customers', [UserController::class, 'index'])->name('customers');
+
     Route::resource('sizes', SizeController::class);
     Route::resource('colors', ColorController::class);
     Route::resource('categories', CategoryController::class);
