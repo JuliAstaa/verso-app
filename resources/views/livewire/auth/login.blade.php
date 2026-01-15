@@ -18,19 +18,8 @@
                     </div>
                 </div>
             </div>
-
-                <div class="flex-grow flex flex-col items-center justify-center">
-                    <img src="{{ asset('images/login/signUp.svg') }}" 
-                        alt="Verso Illustration" 
-                        class="w-full max-w-[380px] mx-auto mb-8">
-                    
-                    <div class="text-center px-4">
-                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Elevate Your Everyday Style</h2>
-                        <p class="text-gray-400 text-lg font-light">Thoughtfully designed clothing for modern lifestyles</p>
-                    </div>
-                </div>
-        {{-- Sisi Kanan: Form Login - Full width di Mobile --}}
-        <div class="w-full md:w-1/2 bg-white flex flex-col items-center justify-center p-6 md:p-10">
+            {{-- Sisi Kanan: Form Login - Full width di Mobile --}}
+            <div class="w-full md:w-1/2 bg-white flex flex-col items-center justify-center p-6 md:p-10">
             
             {{-- Logo muncul di mobile saja karena sisi kiri hilang --}}
             <div class="md:hidden mb-8">

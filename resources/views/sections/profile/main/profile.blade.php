@@ -1,19 +1,20 @@
 {{-- resources/views/sections/profile/bio-data-content.blade.php --}}
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden font-poppins">
     
     {{-- TOP TABS NAVIGATION --}}
     <div class="flex border-b border-gray-100 px-6">
-        <a href="/profile/bio" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-brand-500 transition">
+        {{-- Tab Aktif: Bio Data diberi warna brand dan border bawah --}}
+        <a href="/profile/bio" class="px-6 py-4 text-sm font-bold text-brand-500 border-b-2 border-brand-500 -mb-[1px]">
             Bio Data
         </a>
         <a href="/profile/address-list" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-brand-500 transition">
             Address List
         </a>
-        <a href="/profile" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-brand-500 transition">
-            Bio Data
+        <a href="/profile/notification" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-brand-500 transition">
+            Notification
         </a>
-        <a href="/profile" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-brand-500 transition">
-            Bio Data
+        <a href="/profile/security" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-brand-500 transition">
+            Security
         </a>
     </div>
 
@@ -23,15 +24,13 @@
             
             {{-- LEFT COLUMN: PROFILE IMAGE & BUTTON --}}
             <div class="w-full md:w-1/3 flex flex-col items-center">
-                {{-- Foto dibuat Persegi (Square) dengan aspect-square --}}
                 <div class="w-48 aspect-square bg-gray-100 rounded-xl overflow-hidden mb-4 border border-gray-100 shadow-sm">
                     <img src="https://ui-avatars.com/api/?name=Arya+Ganteng&background=74553d&color=fff" 
                          class="w-full h-full object-cover" alt="Profile">
                 </div>
                 
-                {{-- Tombol dengan lebar w-48 agar sama dengan foto kotak di atasnya --}}
                 <div class="w-48">
-                    <x-button @click="openEditProfile = true" class="w-full !py-2.5 text-sm font-bold !no-underline">
+                    <x-button variant="solid" @click="openEditProfile = true" class="w-full !py-2.5 text-sm font-bold !no-underline !rounded-xl">
                         Edit Profile
                     </x-button>
                 </div>

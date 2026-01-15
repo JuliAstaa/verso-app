@@ -16,7 +16,7 @@
             x-transition:enter-start="opacity-0 -translate-y-2"
             class="mt-4 ml-4 space-y-4 text-sm text-[15px]">
             <li></li>
-                <a href="/profile" 
+                <a href="/profile/bio" 
                    class="block py-1 transition-all {{ request()->is('profile') ? 'text-brown-600 font-bold' : 'text-gray-500 hover:text-black' }}">
                     My Profile
                 </a>

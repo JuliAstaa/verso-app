@@ -18,7 +18,6 @@ Route::get('/', function(){
 Route::get('/product-detail', function(){
     return view('pages.product-detail');
 })->name('pages.product-detail');
-})->name('home');
 
 Route::get('/register', function () {
     return view('pages.register');
@@ -65,6 +64,14 @@ Route::get('/profile/wishlist', function () {
 
 Route::get('/profile/address-list', function () {
     return view('pages.user-profile.address-list'); // Nama file blade kamu (profile.blade.php)
+});
+
+Route::get('/profile/notification', function () {
+    return view('pages.user-profile.notif'); // Nama file blade kamu (profile.blade.php)
+});
+
+Route::get('/profile/security', function () {
+    return view('pages.user-profile.security'); // Nama file blade kamu (profile.blade.php)
 });
 
 // Route Admin

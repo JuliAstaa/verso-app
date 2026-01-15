@@ -1,54 +1,105 @@
+{{-- Modal Pop Up Add Address --}}
 <div x-show="openAddAddress" 
      x-effect="openAddAddress ? document.body.classList.add('overflow-hidden') : document.body.classList.remove('overflow-hidden')"
-     class="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" 
+     class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
      x-cloak>
     
+    {{-- max-h-[90vh] agar modal tidak melebihi tinggi layar HP, overflow-y-auto supaya bisa di-scroll isinya --}}
     <div @click.away="openAddAddress = false" 
-         class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden flex flex-col border border-gray-100">
+         class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-100 font-poppins scrollbar-hide">
         
-        {{-- Header Modal --}}
-        <div class="px-8 py-6 flex justify-between items-start relative">
-            <div class="w-full text-center">
-                <h3 class="font-bold text-gray-900 text-2xl">Tambah Alamat</h3>
-                
-                {{-- Stepper UI --}}
-                <div class="flex items-center justify-center mt-8 px-10">
-                    <div class="flex flex-col items-center relative z-10">
-                        <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm font-bold">1</div>
-                        <span class="text-[10px] mt-2 text-gray-800 font-medium">Cari lokasi pengirimanmu</span>
-                    </div>
-                    <div class="flex-1 h-[2px] bg-gray-200 -mt-6"></div>
-                    <div class="flex flex-col items-center relative z-10">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-200 bg-white text-gray-400 flex items-center justify-center text-sm font-bold">2</div>
-                        <span class="text-[10px] mt-2 text-gray-400">Tentukan pinpoint lokasi</span>
-                    </div>
-                    <div class="flex-1 h-[2px] bg-gray-200 -mt-6"></div>
-                    <div class="flex flex-col items-center relative z-10">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-200 bg-white text-gray-400 flex items-center justify-center text-sm font-bold">3</div>
-                        <span class="text-[10px] mt-2 text-gray-400">Lengkapi detail alamat</span>
-                    </div>
-                </div>
-            </div>
-            <button @click="openAddAddress = false" class="absolute right-6 top-6 text-gray-400 hover:text-gray-800 text-3xl">&times;</button>
-        </div>
-
-        <div class="px-10 py-8 border-t border-gray-100">
-            <h4 class="text-xl font-bold text-gray-900 mb-6">Di mana lokasi tujuan pengirimanmu?</h4>
-            
-            <div class="relative mb-6">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-4">
-                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </span>
-                <input type="text" 
-                       placeholder="Tulis nama jalan / gedung / perumahan" 
-                       class="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-2xl text-base focus:border-brand-500 outline-none transition-all">
-            </div>
-
-            <button class="text-gray-500 font-medium text-sm hover:text-brand-700 transition">
-                Mau cara lain? <span class="text-brand-500 font-bold">Isi alamat secara manual</span>
+        {{-- Header Modal - Sticky agar tetap terlihat saat scroll --}}
+        <div class="px-6 py-4 flex justify-between items-center border-b border-gray-50 sticky top-0 bg-white z-10">
+            <h3 class="text-lg font-bold text-gray-800 tracking-tight">Add New Address</h3>
+            <button @click="openAddAddress = false" class="text-gray-400 hover:text-gray-600 cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
             </button>
         </div>
+
+        {{-- Form Content --}}
+        <form action="#" method="POST" class="p-6 space-y-4">
+            @csrf
+            
+            {{-- Grid tetap 2 kolom, tapi di layar sangat kecil (xs) bisa kita buat tumpuk jika perlu --}}
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest">Label</label>
+                    <input type="text" name="label" placeholder="Home"
+                           class="w-full px-3 py-2 rounded-xl border border-gray-100 bg-gray-50 text-xs focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                </div>
+                <div class="space-y-1">
+                    <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest">Name</label>
+                    <input type="text" name="name" placeholder="Name"
+                           class="w-full px-3 py-2 rounded-xl border border-gray-100 bg-gray-50 text-xs focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest">Phone Number</label>
+                <input type="number" name="phone_number" placeholder="081234567"
+                       class="w-full px-3 py-2 rounded-xl border border-gray-100 bg-gray-50 text-xs focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+            </div>
+
+            {{-- Gray Box Wilayah --}}
+            <div class="bg-gray-50/50 p-4 rounded-xl border border-gray-50 space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="block text-[8px] font-bold text-gray-400 uppercase tracking-widest">Province</label>
+                        <select name="province" class="w-full px-2 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] outline-none focus:border-brand-500 cursor-pointer">
+                            <option value="" selected disabled>Select Province</option>
+                            <option value="BALI">BALI</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[8px] font-bold text-gray-400 uppercase tracking-widest">City</label>
+                        <select name="city" class="w-full px-2 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] outline-none focus:border-brand-500 cursor-pointer">
+                            <option value="" selected disabled>Select City</option>
+                            <option value="KABUPATEN KARANGASEM">KABUPATEN KARANGASEM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="block text-[8px] font-bold text-gray-400 uppercase tracking-widest">District</label>
+                        <select name="district" class="w-full px-2 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] outline-none focus:border-brand-500 cursor-pointer">
+                            <option value="" selected disabled>Select District</option>
+                            <option value="SELAT">SELAT</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[8px] font-bold text-gray-400 uppercase tracking-widest">Village</label>
+                        <select name="village" class="w-full px-2 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] outline-none focus:border-brand-500 cursor-pointer">
+                            <option value="" selected disabled>Select Village</option>
+                            <option value="SEBUDI">SEBUDI</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-1 w-full sm:w-1/2">
+                    <label class="block text-[8px] font-bold text-gray-400 uppercase tracking-widest">Postal Code</label>
+                    <input type="number" name="postal_code" placeholder="Input code"
+                           class="w-full px-2 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] outline-none focus:border-brand-500">
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest">Full Address Details</label>
+                <textarea name="full_address" rows="2" placeholder="Full Address Details"
+                          class="w-full px-3 py-2 rounded-xl border border-gray-100 bg-gray-50 text-xs focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none resize-none"></textarea>
+            </div>
+
+            {{-- Action Buttons - Sticky bottom agar tombol simpan tidak hilang saat scroll --}}
+            <div class="grid grid-cols-2 gap-3 pt-2 sticky bottom-0 bg-white">
+                <x-button variant="outline" type="button" @click="openAddAddress = false" class="w-full !py-2.5 !rounded-xl !bg-[#F3F4F6] !border-none !text-gray-500 !text-xs">
+                    Cancel
+                </x-button>
+                <x-button variant="solid" type="submit" class="w-full !py-2.5 !rounded-xl !text-xs">
+                    Save Address
+                </x-button>
+            </div>
+        </form>
     </div>
 </div>
