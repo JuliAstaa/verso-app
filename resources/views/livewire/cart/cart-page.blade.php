@@ -21,8 +21,6 @@
                     @endif
                 </div>
 
-                <pre class="text-[10px]">Selected IDs: {{ json_encode($selectedItems) }}</pre>
-
                 <section class="space-y-4">
                     @foreach($this->items as $item)
                         <div wire:key="cart-item-{{ $item->id }}" 

@@ -86,7 +86,7 @@ class ProductList extends Component
         $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
 
         $cartItem = CartItem::where('cart_id', $cart->id)
-                            ->where('product_id', $productId)
+                            ->where('product_variant_id', $variant->id)
                             ->first();
 
         if ($cartItem) {
