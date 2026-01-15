@@ -21,9 +21,11 @@
                     @endif
                 </div>
 
+                <pre class="text-[10px]">Selected IDs: {{ json_encode($selectedItems) }}</pre>
+
                 <section class="space-y-4">
                     @foreach($this->items as $item)
-                        <div wire:key="item-container-{{ $item->id }}" 
+                        <div wire:key="cart-item-{{ $item->id }}" 
                              class="bg-white p-4 rounded-xl border shadow-sm flex flex-col gap-4 transition-all {{ in_array((string)$item->id, $selectedItems) ? 'border-[#6B4F3B]/30 bg-[#6B4F3B]/5' : 'border-gray-100' }}">
                             
                             <div class="flex gap-4">
@@ -36,10 +38,10 @@
                                 </div>
 
                                 <div class="w-20 h-20 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden border border-gray-100">
-                                    @if($item->product->image_url)
-                                        <img src="{{ asset($item->product->image_url) }}" 
+                                    @if($item->productVariant->image_url)
+                                        <img src="{{ asset($item->productVariant->image_url) }}" 
                                              class="w-full h-full object-cover"
-                                             alt="{{ $item->product->name }}"
+                                             alt="{{ $item->productVariant->name }}"
                                              onerror="this.src='https://via.placeholder.com/100?text=No+Image'">
                                     @else
                                         <img src="https://via.placeholder.com/100?text=No+Image" class="w-full h-full object-cover opacity-50">
@@ -47,7 +49,7 @@
                                 </div>
 
                                 <div class="flex-grow">
-                                    <h3 class="text-sm font-semibold text-gray-700 leading-tight line-clamp-2 mb-1">{{ $item->product->name }}</h3>
+                                    <h3 class="text-sm font-semibold text-gray-700 leading-tight line-clamp-2 mb-1">{{ $item->productvariant->name }}</h3>
                                     <p class="font-bold text-brand-500 mt-1">IDR {{ number_format($item->price, 0, ',', '.') }}</p>
                                 </div>
                             </div>

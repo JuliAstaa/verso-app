@@ -43,8 +43,34 @@
                 </div>
 
                 <div class="flex items-center gap-3 md:gap-5 w-full lg:w-auto justify-center md:justify-end">
-                    <x-button variant="outline" class="flex-1 lg:flex-none text-sm">Login</x-button>
-                    <x-button variant="solid" class="flex-1 lg:flex-none text-sm">Sign Up</x-button>
+                    @auth
+                        <a href="" class="flex items-center gap-3 group">
+                            
+                            <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white border-2 border-transparent group-hover:border-[#C8B29A] transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"/>
+                                </svg>
+                            </div>
+
+                            <div class="flex flex-col items-end hidden md:flex">
+                                <span class="text-sm font-bold text-brand-500 truncate max-w-[120px]">
+                                    {{ auth()->user()->name }}
+                                </span>
+                            </div>
+                        </a>
+                    @else
+                        <a href="">
+                            <x-button variant="outline" class="flex-1 lg:flex-none text-sm">
+                                Login
+                            </x-button>
+                        </a>
+
+                        <a href="">
+                            <x-button variant="solid" class="flex-1 lg:flex-none text-sm">
+                                Sign Up
+                            </x-button>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>

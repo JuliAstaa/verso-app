@@ -94,7 +94,7 @@ class ProductList extends Component
         } else {
             CartItem::create([
                 'cart_id' => $cart->id,
-                'product_id' => $productId,
+                'product_variant_id' => $variant->id,
                 'quantity' => 1,
                 'price' => $variant->price,
             ]);
