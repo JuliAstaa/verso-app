@@ -46,10 +46,16 @@
                     @auth
                         <a href="" class="flex items-center gap-3 group">
                             
-                            <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white border-2 border-transparent group-hover:border-[#C8B29A] transition-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"/>
-                                </svg>
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white">
+                                @if(auth()->user()->image_url)
+                                    <img src="{{ asset('storage/' . auth()->user()->image_url) }}" 
+                                        class="w-full h-full rounded-full object-cover border border-gray-200"
+                                        alt="{{ auth()->user()->name }}">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=6B4F3B&color=fff" 
+                                        class="w-full h-full rounded-full"
+                                        alt="{{ auth()->user()->name }}">
+                                @endif
                             </div>
 
                             <div class="flex flex-col items-end hidden md:flex">
