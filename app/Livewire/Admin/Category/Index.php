@@ -177,7 +177,7 @@ class Index extends Component
         return view('livewire.admin.category.index', [
             'categories' => Category::where('name', 'like', '%'.$this->search.'%')
                 ->latest()
-                ->paginate(10)
+                ->paginate(8)
         ]);
     }
 }

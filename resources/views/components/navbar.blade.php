@@ -31,30 +31,15 @@
                     <a href="{{ url('/') }}">
                         <h1 class="uppercase text-3xl md:text-4xl">Verso</h1>
                     </a>
-                    <a href="" class="text-lg md:text-xl">Category</a>
+                    
+                    <livewire:navbar.category-dropdown />
+                    
                 </div>
 
                 <div class="flex flex-1 justify-between items-center gap-4 md:gap-8 w-full">
-                    <div class="w-full">
-                        <form class="flex items-center">
-                            <label for="simple-search" class="sr-only">Search</label>
-                            <div class="relative w-full">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 md:w-6 md:h-6 text-[#6B4F3B]" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <input type="text" id="simple-search" class="block w-full p-2 pl-10 text-sm text-[#6B4F3B] border border-[#6B4F3B] rounded-md bg-white focus:ring-1 focus:ring-[#6B4F3B] outline-none" placeholder="Search in verso" required="">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <a href="#" class="text-[#6B4F3B]">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" md:width="40" md:height="40" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M10.5 18a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3M17.5 18a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3M8.82 15.77c.31.75 1.04 1.23 1.85 1.23h6.18c.79 0 1.51-.47 1.83-1.2l3.24-7.4c.14-.31.11-.67-.08-.95S21.34 7 21 7H7.33L5.92 3.62C5.76 3.25 5.4 3 5 3H2v2h2.33zM19.47 9l-2.62 6h-6.18l-2.5-6z"></path>
-                            </svg>
-                        </a>
-                    </div>
+                    <livewire:navbar.navbar-search />
+                    
+                    <livewire:navbar.cart-badge />
                 </div>
 
                 <div class="flex items-center gap-3 md:gap-5 w-full lg:w-auto justify-center md:justify-end">

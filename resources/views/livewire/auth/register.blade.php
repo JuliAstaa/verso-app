@@ -37,24 +37,20 @@
                     </p>
                 </div>
 
-                <form action="{{ route('register.submit') }}" method="POST" class="space-y-3.5 md:space-y-4">
-                    @csrf
+                {{-- Form dengan spacing lebih rapat (space-y-4) --}}
+                <form wire:submit="register" class="space-y-4">
+                    
                     <div>
-                        <label class="block text-[10px] font-bold text-gray-600 mb-1 uppercase tracking-widest">Username</label>
-                        <input type="text" name="name"
-                        class="w-full px-5 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm">
+                        <label class="block text-[10px] font-bold text-gray-600 mb-1 uppercase tracking-widest">Email</label>
+                        <input wire:model="email" type="email"
+                        class="w-full px-5 py-2 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 focus:bg-white focus:ring-2 focus:ring-[#634832]/20 focus:border-[#634832] outline-none transition-all text-sm">
                     </div>
+
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-600 mb-1 uppercase tracking-widest">Password</label>
-                        <input type="password" name="password"
-                        class="w-full px-5 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-600 mb-1 uppercase tracking-widest">Email</label>
-                        <input type="email" name="email"
-                        class="w-full px-5 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm">
+                        <input wire:model="password" type="password"
+                        class="w-full px-5 py-2 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 focus:bg-white focus:ring-2 focus:ring-[#634832]/20 focus:border-[#634832] outline-none transition-all text-sm">
                     </div>
 
                     <div class="flex items-center justify-between text-[10px] text-gray-400 px-1">
@@ -76,12 +72,13 @@
                         <span class="flex-shrink mx-3 text-gray-300 text-[9px] font-bold uppercase tracking-widest">Or</span>
                         <div class="flex-grow border-t border-gray-100"></div>
                     </div>
-
+                    <a href="{{ route('google.login') }}">
                     <button type="button" 
                             class="w-full flex items-center justify-center gap-3 border border-gray-200 py-3 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 transition cursor-pointer">
                         <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-4 h-4" alt="Google">
                         Sign In with Google
                     </button>
+                    </a>
                 </form>
 
                 <p class="text-center text-xs text-gray-400 mt-6">
