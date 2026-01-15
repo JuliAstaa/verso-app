@@ -31,23 +31,13 @@
                     <a href="{{ url('/') }}">
                         <h1 class="uppercase text-3xl md:text-4xl">Verso</h1>
                     </a>
-                    <a href="" class="text-lg md:text-xl">Category</a>
+                    
+                    <livewire:navbar.category-dropdown />
+                    
                 </div>
 
                 <div class="flex flex-1 justify-between items-center gap-4 md:gap-8 w-full">
-                    <div class="w-full">
-                        <form class="flex items-center">
-                            <label for="simple-search" class="sr-only">Search</label>
-                            <div class="relative w-full">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 md:w-6 md:h-6 text-[#6B4F3B]" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <input type="text" id="simple-search" class="block w-full p-2 pl-10 text-sm text-[#6B4F3B] border border-[#6B4F3B] rounded-md bg-white focus:ring-1 focus:ring-[#6B4F3B] outline-none" placeholder="Search in verso" required="">
-                            </div>
-                        </form>
-                    </div>
+                    <livewire:navbar.navbar-search />
                     
                     <livewire:navbar.cart-badge />
                 </div>

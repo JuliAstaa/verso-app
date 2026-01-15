@@ -24,7 +24,9 @@ Route::get('/product-detail', function(){
     return view('pages.product-detail');
 })->name('pages.product-detail');
 
-
+Route::get('/category', function(){
+    return view('pages.product-category');
+})->name('product.category');
 
 Route::get('/register', function () {
     return view('pages.register');

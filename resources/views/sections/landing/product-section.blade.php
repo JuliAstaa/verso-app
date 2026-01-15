@@ -6,7 +6,7 @@
             <button class="pb-2 text-gray-500 hover:text-gray-700 font-semibold">Best Selling Product</button>
         </div>
 
-        <livewire:product.product-list :limit="12" :columns="6"/> 
+        <livewire:product.product-list :showPagination="false" :limit="12" :columns="6"/> 
 
     </div>
 </section>
