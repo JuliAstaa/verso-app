@@ -16,7 +16,9 @@ class CartPage extends Component
     #[On('cart_updated')]
     public function refreshCart()
     {
-        $this->selectAllItems();
+        $allIds = $this->items()->pluck('id')->map(fn($id) => (string)$id)->toArray();
+
+        $this->syncSelectAllStatus();
     }
 
     public function mount()
@@ -28,7 +30,7 @@ class CartPage extends Component
     public function items()
     {
         return CartItem::whereHas('cart', fn($q) => $q->where('user_id', Auth::id()))
-            ->with('product')
+            ->with('productVariant.product')
             ->get();
     }
 
@@ -95,6 +97,7 @@ class CartPage extends Component
         $item = CartItem::find($itemId);
         if ($item) {
             $item->delete();
+            // Hapus ID dari array selectedItems agar hitungan (count) di UI sinkron
             $this->selectedItems = array_values(array_diff($this->selectedItems, [(string)$itemId]));
             $this->syncSelectAllStatus();
             $this->dispatch('cart_updated');
@@ -103,10 +106,21 @@ class CartPage extends Component
 
     public function removeSelected()
     {
+        if (empty($this->selectedItems)) return;
+
+        // 1. Hapus dari database
         CartItem::whereIn('id', $this->selectedItems)->delete();
+
+        // 2. Kosongkan array pilihan agar UI bersih
         $this->selectedItems = [];
+        
+        // 3. Set checkbox Select All ke false
         $this->selectAll = false;
+
+        // 4. Update data (Computed items akan refresh otomatis)
         $this->dispatch('cart_updated');
+    
+        $this->dispatch('notify', message: 'Items removed successfully');
     }
 
     public function render()

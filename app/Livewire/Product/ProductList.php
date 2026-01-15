@@ -47,18 +47,19 @@ class ProductList extends Component
 
         if(!$variant) {
             $this->dispatch('notify', message: 'Sorry, this product is out of stock!');
+            return;
         }
 
         $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
 
-        $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $productId)->first();
+        $cartItem = CartItem::where('cart_id', $cart->id)->where('product_variant_id', $variant->id)->first();
 
         if($cartItem){
             $cartItem->increment('quantity');
         }else{
             CartItem::create([
                 'cart_id' => $cart->id,
-                'product_id' => $productId,
+                'product_variant_id' => $variant->id,
                 'quantity' => 1,
                 'price' => $variant->price,
             ]);
@@ -71,19 +72,6 @@ class ProductList extends Component
 
     public function render()
     {
-        /*
-        $products = collect(range(1, $this->limit))->map(function($i) {
-            return [
-                'id' => $i,
-                'name' => 'Celana panjang cargo pria slim fit khaki - ' . $i,
-                'price' => 259050,
-                'rating' => 4.9,
-                'sold' => '2rb+',
-                'location' => 'Kab. Badung',
-                'image' => null
-            ];
-        });
-        */
         
         $products = Product::limit($this->limit)->get();
         
