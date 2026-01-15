@@ -1,3 +1,3 @@
 <x-layouts.admin title="Admin Dashboard - Verso">
-    <h1>Ini Dashboard</h1>
+    <livewire:admin.dashboard.analytics>
 </x-layouts.admin>

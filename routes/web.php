@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\UserController;
@@ -202,6 +203,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function (){
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('orders', OrderController::class);
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
 Route::middleware(['auth'])->group(function () {

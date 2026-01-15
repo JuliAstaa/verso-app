@@ -81,18 +81,20 @@
                     Colors
                 </a>
 
-            <a href="{{ route('admin.sizes.index') }}" 
-            @class([
+            <a href="{{ route('admin.reports.index') }}" 
+                @class([
                     'flex items-center gap-3 px-3 py-2.5 text-sm transition-all duration-200 rounded-xl',
-                    'font-semibold text-white bg-brand-500' => request()->routeIs('admin.sizes.index'),
-                    'font-medium text-gray-500 hover:text-brand-500 hover:bg-brand-100' => !request()->routeIs('admin.sizes.index'),
+                    'font-semibold text-white bg-brand-500' => request()->routeIs('admin.reports.index'),
+                    'font-medium text-gray-500 hover:text-brand-500 hover:bg-brand-100' => !request()->routeIs('admin.reports.index'),
                 ])>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 640 640" class="size-6"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M241.1 580.2C222.4 598.9 192 598.9 173.2 580.2L60.1 467.1C41.4 448.4 41.4 418 60.1 399.2L77.1 382.2L150.6 455.7C160 465.1 175.2 465.1 184.5 455.7C193.8 446.3 193.9 431.1 184.5 421.8L111 348.3L144.9 314.4L195.8 365.3C205.2 374.7 220.4 374.7 229.7 365.3C239 355.9 239.1 340.7 229.7 331.4L178.8 280.5L212.7 246.6L286.2 320.1C295.6 329.5 310.8 329.5 320.1 320.1C329.4 310.7 329.5 295.5 320.1 286.2L246.6 212.7L280.5 178.8L331.4 229.7C340.8 239.1 356 239.1 365.3 229.7C374.6 220.3 374.7 205.1 365.3 195.8L314.4 144.9L348.3 111L421.8 184.5C431.2 193.9 446.4 193.9 455.7 184.5C465 175.1 465.1 159.9 455.7 150.6L382.2 77.1L399.2 60.1C417.9 41.4 448.3 41.4 467.1 60.1L580.5 172.9C599.2 191.6 599.2 222 580.5 240.8L241.1 580.2z"/></svg> Sizes
-                </a>
-
-            <a href="" class="flex items-center gap-3 px-3 py-2.5 mt-2 text-sm font-medium text-gray-500 hover:text-brand-700 hover:bg-brand-100 rounded-xl transition-all duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg>
-                Analytics
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" x2="8" y1="13" y2="13"/>
+                        <line x1="16" x2="8" y1="17" y2="17"/>
+                        <line x1="10" x2="8" y1="9" y2="9"/>
+                    </svg>
+                    Reports
             </a>
         </div>
     </nav>
