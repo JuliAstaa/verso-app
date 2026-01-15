@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\UserController;
 use App\Livewire\Auth\Login;
-
+use App\Livewire\Front\Checkout;
+use App\Livewire\Front\Payment\Page as PaymentPage;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -24,7 +26,74 @@ Route::get('/product-detail', function(){
     return view('pages.product-detail');
 })->name('pages.product-detail');
 
+use App\Models\User;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\ProductVariant;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
+// 👇 HAPUS ROUTE INI KALAU UDAH PRODUCTION YA!
+Route::get('/test-create-order', function () {
+    
+    // 1. Ambil User Customer (Pastikan id nya bener customer)
+    $user = User::where('role', 'customer')->first();
+    
+    if (!$user) return 'Gak ada user customer woi! Seeding dulu.';
+
+    // 2. Login Paksa (Biar logic Auth jalan)
+    Auth::login($user);
+
+    // 3. Ambil Variant Produk Sembarang
+    $variant = ProductVariant::with('product')->inRandomOrder()->first();
+    
+    if (!$variant) return 'Produk Variant kosong! Isi dulu.';
+
+    // 4. LOGIC CREATE ORDER (Simulasi Checkout)
+    $order = DB::transaction(function () use ($user, $variant) {
+        
+        // A. Bikin Header Order
+        $newOrder = Order::create([
+            'user_id' => $user->id,
+            'invoice_number' => 'INV/TEST/' . date('Ymd') . '/' . rand(1000, 9999),
+            'status' => 'pending', // Default Pending
+            'recipient_name' => $user->name,
+            'recipient_phone' => $user->profile->phone ?? '08123456789',
+            'shipping_address' => 'Jalan Testing Jalur Tikus No. 99, Konoha',
+            'total_price' => 0, // Nanti diupdate
+        ]);
+
+        // B. Bikin Item (Ceritanya beli 2 pcs)
+        $qty = 2;
+        $price = $variant->price;
+        $subTotal = $qty * $price;
+
+        OrderItem::create([
+            'order_id' => $newOrder->id,
+            'product_variant_id' => $variant->id,
+            'quantity' => $qty,
+            'price' => $price,
+        ]);
+
+        // C. Update Total
+        $newOrder->update(['total_price' => $subTotal]);
+
+        return $newOrder;
+    });
+
+    return "Sukses Wok! Order ID: $order->id. Invoice: $order->invoice_number. Cek Admin Panel gih!";
+});
+
+Route::middleware(['auth', 'verified'])->group(function () { // Pake verified biar aman
+    // ... route lain ...
+    
+    // 1. Halaman Checkout (Input Alamat)
+    Route::get('/checkout', Checkout::class)->name('checkout');
+
+    // 2. Halaman Fake Payment Gateway (Bayar Tipu-tipu)
+    Route::get('/payment/{order}', PaymentPage::class)->name('payment.show');
+});
 
 Route::get('/register', function () {
     return view('pages.register');
@@ -132,6 +201,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function (){
     Route::resource('colors', ColorController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('orders', OrderController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
