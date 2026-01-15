@@ -12,7 +12,8 @@ class Product extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'name', 'slug', 'description', 'base_price', 'weight'];
+    protected $guarded = ['id'];
+    protected $fillable = ['category_id', 'name', 'slug', 'description', 'base_price', 'weight', 'is_active'];
 
     public function category() {
         return $this->belongsTo(Category::class);
@@ -26,6 +27,8 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
-
+    public function getPriceFormattedAttribute() {
+        return 'Rp '. number_format($this->price, 0, ',', '.');
+    }
 
 }

@@ -25,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        
+        return view('pages.admin.product-create');
     }
 
     /**
@@ -134,9 +134,11 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit($product)
     {
         //
+        
+        return view('pages.admin.product-edit', ['id' => $product]);
     }
 
     
