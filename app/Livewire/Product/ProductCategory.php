@@ -26,18 +26,24 @@ class ProductCategory extends Component
         $this->totalProducts = $count;
     }
 
-    public function mount()
+    public function mount($c = null)
     {
-        if (request()->has('c')) {
-            $this->selectedCategory = request('c');
+        if ($c) {
+            $this->selectedCategory = $c;
         } 
-        elseif (request()->has('category')) {
-            $cat = Category::where('slug', request('category'))->first();
-            if ($cat) {
-                $this->selectedCategory = $cat->id;
+        else {
+            if (request()->has('c')) {
+                $this->selectedCategory = request('c');
+            } 
+            elseif (request()->has('category')) {
+                $cat = Category::where('slug', request('category'))->first();
+                if ($cat) {
+                    $this->selectedCategory = $cat->id;
+                }
             }
         }
 
+        // Tetap pertahankan pencarian
         if (request()->has('search')) {
             $this->search = request('search');
         }
