@@ -7,6 +7,7 @@ use App\Models\Color;
 use App\Models\Size;
 use App\Services\ProductService;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -30,9 +31,14 @@ class Create extends Component
     protected $rules = [
         'category_id' => 'required',
         'name' => 'required|string|max:255',
+        'description' => 'required|string', // Tambahkan validasi deskripsi
         'base_price' => 'required|numeric|min:0',
         'weight' => 'required|integer|min:0',
-        'images.*' => 'image|max:2048', 
+        
+        // 👇 UPDATE BAGIAN INI: Tambahkan mimes:webp
+        'images' => 'required|array|min:1', // Pastikan minimal ada 1 gambar (opsional)
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048', 
+        
         'variants' => 'required|array|min:1',
         'variants.*.stock' => 'required|integer|min:0',
         'variants.*.price' => 'required|numeric|min:0',
@@ -100,13 +106,15 @@ class Create extends Component
                 'is_active' => $this->is_active,
             ];
 
+          
+
             // panggil servicenya wok
             $service->createProduct($productData, $this->variants, $this->images);
             session()->flash('success', 'Produk Berhasil Dibuat!');
             return redirect()->route('admin.products.index');
         } catch (\Exception $e) {
-            dd("ERROR TERTANGKAP: " . $e->getMessage());
-            // $this->dispatch('swal:error', ['text' => 'Gagal: ' . $e->getMessage()]);
+            // dd("ERROR TERTANGKAP: " . $e->getMessage());
+            $this->dispatch('swal:error', ['text' => 'Gagal: ' . $e->getMessage()]);
         }
     }
 

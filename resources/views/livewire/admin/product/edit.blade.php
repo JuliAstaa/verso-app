@@ -12,25 +12,33 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
+        {{-- KOLOM KIRI (MAIN CONTENT) --}}
         <div class="lg:col-span-2 space-y-8">
             
+            {{-- 1. INFORMASI DASAR --}}
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <h3 class="text-lg font-bold text-gray-800 mb-4">Informasi Dasar</h3>
                 
                 <div class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nama Produk</label>
-                        <input wire:model="name" type="text" class="w-full bg-gray-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-[#5B4636]/20" placeholder="Nama Produk...">
-                        @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <input wire:model="name" type="text" 
+                               class="w-full bg-gray-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-[#5B4636]/20 @error('name') ring-2 ring-red-500/50 bg-red-50 @enderror" 
+                               placeholder="Nama Produk...">
+                        @error('name') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                     </div>
                     
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Deskripsi</label>
-                        <textarea wire:model="description" rows="5" class="w-full bg-gray-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-[#5B4636]/20" placeholder="Deskripsi lengkap..."></textarea>
+                        <textarea wire:model="description" rows="5" 
+                                  class="w-full bg-gray-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-[#5B4636]/20 @error('description') ring-2 ring-red-500/50 bg-red-50 @enderror" 
+                                  placeholder="Deskripsi lengkap..."></textarea>
+                        @error('description') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </div>
 
+            {{-- 2. VARIAN PRODUK --}}
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-bold text-gray-800">Varian Produk</h3>
@@ -39,130 +47,90 @@
                     </button>
                 </div>
 
+                {{-- Error Global Variants (Misal variant kosong) --}}
+                @error('variants') 
+                    <div class="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-200">
+                        {{ $message }} (Silakan pilih warna & size lalu klik Generate)
+                    </div> 
+                @enderror
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-
-                <div class="space-y-3">
-                    <label class="block text-xs font-bold text-gray-500 uppercase">Pilih Warna</label>
-                    
-
-                    @if(!empty($selectedColors))
-                        <div class="flex flex-wrap gap-2 mb-2 p-3 bg-gray-50 rounded-xl border border-gray-100 min-h-[50px]">
-                            @foreach($selectedColors as $id)
-                                @php $colorName = \App\Models\Color::find($id)->name ?? 'Unknown'; @endphp
-                                <button wire:click="removeColor({{ $id }})" 
-                                        class="flex items-center gap-2 px-3 py-1 bg-[#5B4636] text-white text-xs rounded-full hover:bg-red-500 transition-colors group">
-                                    {{ $colorName }}
-                                    <span class="bg-white/20 rounded-full p-0.5 group-hover:bg-white/40">&times;</span>
-                                </button>
-                            @endforeach
+                    {{-- PILIH WARNA --}}
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-gray-500 uppercase">Pilih Warna</label>
+                        @if(!empty($selectedColors))
+                            <div class="flex flex-wrap gap-2 mb-2 p-3 bg-gray-50 rounded-xl border border-gray-100 min-h-[50px]">
+                                @foreach($selectedColors as $id)
+                                    @php $colorName = \App\Models\Color::find($id)->name ?? 'Unknown'; @endphp
+                                    <button wire:click="removeColor({{ $id }})" class="flex items-center gap-2 px-3 py-1 bg-[#5B4636] text-white text-xs rounded-full hover:bg-red-500 transition-colors group">
+                                        {{ $colorName }} <span class="bg-white/20 rounded-full p-0.5 group-hover:bg-white/40">&times;</span>
+                                    </button>
+                                @endforeach
+                            </div>
+                        @endif
+                        {{-- Search Bar Warna --}}
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-[#5B4636] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                            <input wire:model.live.debounce.300ms="searchColor" type="text" placeholder="Cari warna..." class="block w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#5B4636]/20 transition-all shadow-sm">
                         </div>
-                    @endif
-
-                    <!-- search  bar -->
-                    <div class="relative group">
-         
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400 group-focus-within:text-[#5B4636] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-
-                   
-                        <input 
-                            wire:model.live.debounce.300ms="searchColor" 
-                            type="text" 
-                            placeholder="Cari warna..." 
-                            class="block w-full pl-10 pr-4 py-2.5 
-                                bg-gray-50 border border-gray-200 rounded-xl 
-                                text-sm text-gray-700 placeholder-gray-400
-                                focus:ring-2 focus:ring-[#5B4636]/20 focus:border-[#5B4636] focus:bg-white
-                                transition-all duration-200 ease-in-out shadow-sm"
-                        >
-                    </div>
-
-                    <div class="max-h-48 overflow-y-auto border border-gray-200 rounded-xl p-3 bg-white shadow-inner custom-scrollbar">
-                        <div class="flex flex-wrap gap-2">
-                            @forelse($colors as $color)
-                                <label class="cursor-pointer relative group">
-                                    <input type="checkbox" wire:model.live="selectedColors" value="{{ $color->id }}" class="peer sr-only">
-                                    
-                                    {{-- Style Tombol Warna --}}
-                                    <div class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg 
-                                                text-gray-600 bg-gray-50 hover:bg-gray-100 hover:border-gray-300 
-                                                peer-checked:bg-[#5B4636] peer-checked:text-white peer-checked:border-[#5B4636] 
-                                                peer-checked:ring-2 peer-checked:ring-[#5B4636]/30 transition-all select-none">
-                                        {{ $color->name }}
-                                    </div>
-                                </label>
-                            @empty
-                                <p class="text-xs text-gray-400 p-2 text-center w-full">Warna tidak ditemukan.</p>
-                            @endforelse
+                        {{-- List Warna --}}
+                        <div class="max-h-48 overflow-y-auto border border-gray-200 rounded-xl p-3 bg-white shadow-inner custom-scrollbar">
+                            <div class="flex flex-wrap gap-2">
+                                @forelse($colors as $color)
+                                    <label class="cursor-pointer relative group">
+                                        <input type="checkbox" wire:model.live="selectedColors" value="{{ $color->id }}" class="peer sr-only">
+                                        <div class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg text-gray-600 bg-gray-50 hover:bg-gray-100 peer-checked:bg-[#5B4636] peer-checked:text-white peer-checked:border-[#5B4636] transition-all select-none">
+                                            {{ $color->name }}
+                                        </div>
+                                    </label>
+                                @empty
+                                    <p class="text-xs text-gray-400 p-2 text-center w-full">Warna tidak ditemukan.</p>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
-                </div>
 
-
-                {{-- === KOLOM 2: SIZE (Sama Logicnya) === --}}
-                <div class="space-y-3">
-                    <label class="block text-xs font-bold text-gray-500 uppercase">Pilih Size</label>
-                    
-                    {{-- SELECTED SIZE --}}
-                    @if(!empty($selectedSizes))
-                        <div class="flex flex-wrap gap-2 mb-2 p-3 bg-gray-50 rounded-xl border border-gray-100 min-h-[50px]">
-                            @foreach($selectedSizes as $id)
-                                @php $sizeCode = \App\Models\Size::find($id)->code ?? '?'; @endphp
-                                <button wire:click="removeSize({{ $id }})" 
-                                        class="flex items-center gap-2 px-3 py-1 bg-[#5B4636] text-white text-xs rounded-full hover:bg-red-500 transition-colors group">
-                                    {{ $sizeCode }}
-                                    
-                                </button>
-                            @endforeach
+                    {{-- PILIH SIZE --}}
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-gray-500 uppercase">Pilih Size</label>
+                        @if(!empty($selectedSizes))
+                            <div class="flex flex-wrap gap-2 mb-2 p-3 bg-gray-50 rounded-xl border border-gray-100 min-h-[50px]">
+                                @foreach($selectedSizes as $id)
+                                    @php $sizeCode = \App\Models\Size::find($id)->code ?? '?'; @endphp
+                                    <button wire:click="removeSize({{ $id }})" class="flex items-center gap-2 px-3 py-1 bg-[#5B4636] text-white text-xs rounded-full hover:bg-red-500 transition-colors group">
+                                        {{ $sizeCode }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        @endif
+                        {{-- Search Bar Size --}}
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-[#5B4636] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                            <input wire:model.live.debounce.300ms="searchSize" type="text" placeholder="Cari size..." class="block w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#5B4636]/20 transition-all shadow-sm">
                         </div>
-                    @endif
-
-                    {{-- SEARCH BAR --}}
-                    <!-- search  bar -->
-                    <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400 group-focus-within:text-[#5B4636] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-
-                        <input 
-                            wire:model.live.debounce.300ms="searchSize" 
-                            type="text" 
-                            placeholder="Cari size..." 
-                            class="block w-full pl-10 pr-4 py-2.5 
-                                bg-gray-50 border border-gray-200 rounded-xl 
-                                text-sm text-gray-700 placeholder-gray-400
-                                focus:ring-2 focus:ring-[#5B4636]/20 focus:border-[#5B4636] focus:bg-white
-                                transition-all duration-200 ease-in-out shadow-sm"
-                        >
-                    </div>
-
-                    {{-- LIST SIZE --}}
-                    <div class="max-h-48 overflow-y-auto border border-gray-200 rounded-xl p-3 bg-white shadow-inner custom-scrollbar">
-                        <div class="flex flex-wrap gap-2">
-                            @forelse($sizes as $size)
-                                <label class="cursor-pointer relative">
-                                    <input type="checkbox" wire:model.live="selectedSizes" value="{{ $size->id }}" class="peer sr-only">
-                                    <div class="w-10 h-8 flex items-center justify-center text-xs font-bold border border-gray-200 rounded-lg 
-                                                text-gray-600 bg-gray-50 hover:bg-gray-100 
-                                                peer-checked:bg-[#5B4636] peer-checked:text-white peer-checked:border-[#5B4636] 
-                                                peer-checked:ring-2 peer-checked:ring-[#5B4636]/30 transition-all select-none">
-                                        {{ $size->code }}
-                                    </div>
-                                </label>
-                            @empty
-                                <p class="text-xs text-gray-400 p-2 text-center w-full">Size kosong.</p>
-                            @endforelse
+                        {{-- List Size --}}
+                        <div class="max-h-48 overflow-y-auto border border-gray-200 rounded-xl p-3 bg-white shadow-inner custom-scrollbar">
+                            <div class="flex flex-wrap gap-2">
+                                @forelse($sizes as $size)
+                                    <label class="cursor-pointer relative">
+                                        <input type="checkbox" wire:model.live="selectedSizes" value="{{ $size->id }}" class="peer sr-only">
+                                        <div class="w-10 h-8 flex items-center justify-center text-xs font-bold border border-gray-200 rounded-lg text-gray-600 bg-gray-50 hover:bg-gray-100 peer-checked:bg-[#5B4636] peer-checked:text-white peer-checked:border-[#5B4636] transition-all select-none">
+                                            {{ $size->code }}
+                                        </div>
+                                    </label>
+                                @empty
+                                    <p class="text-xs text-gray-400 p-2 text-center w-full">Size kosong.</p>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-
+                {{-- TABEL VARIAN --}}
                 @if(!empty($variants))
                     <div class="overflow-x-auto border border-gray-200 rounded-xl">
                         <table class="w-full text-xs text-left">
@@ -176,14 +144,23 @@
                             </thead>
                             <tbody class="divide-y divide-gray-100">
                                 @foreach($variants as $index => $variant)
-                                    <tr>
+                                    <tr wire:key="variant-{{ $index }}">
                                         <td class="px-4 py-2 font-bold">{{ $variant['label_color'] }} - {{ $variant['label_size'] }}</td>
+                                        
+                                        {{-- INPUT HARGA VARIAN --}}
                                         <td class="px-4 py-2">
-                                            <input type="number" wire:model="variants.{{ $index }}.price" class="w-24 bg-gray-50 border-gray-200 rounded px-2 py-1">
+                                            <input type="number" wire:model="variants.{{ $index }}.price" 
+                                                   class="w-24 bg-gray-50 border-gray-200 rounded px-2 py-1 focus:ring-[#5B4636] @error('variants.'.$index.'.price') border-red-500 bg-red-50 @enderror">
+                                            @error('variants.'.$index.'.price') <div class="text-[10px] text-red-500 mt-1">Wajib diisi</div> @enderror
                                         </td>
+                                        
+                                        {{-- INPUT STOK VARIAN --}}
                                         <td class="px-4 py-2">
-                                            <input type="number" wire:model="variants.{{ $index }}.stock" class="w-20 bg-gray-50 border-gray-200 rounded px-2 py-1">
+                                            <input type="number" wire:model="variants.{{ $index }}.stock" 
+                                                   class="w-20 bg-gray-50 border-gray-200 rounded px-2 py-1 focus:ring-[#5B4636] @error('variants.'.$index.'.stock') border-red-500 bg-red-50 @enderror">
+                                            @error('variants.'.$index.'.stock') <div class="text-[10px] text-red-500 mt-1">Wajib diisi</div> @enderror
                                         </td>
+                                        
                                         <td class="px-4 py-2">
                                             <button wire:click="removeVariant({{ $index }})" class="text-red-500 hover:text-red-700">&times;</button>
                                         </td>
@@ -194,14 +171,15 @@
                     </div>
                 @endif
             </div>
-
         </div>
 
+        {{-- KOLOM KANAN (SIDEBAR) --}}
         <div class="space-y-8">
             
+            {{-- TOMBOL UPDATE --}}
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <button wire:click="update" class="w-full bg-[#5B4636] text-white font-bold py-3 rounded-xl hover:bg-[#433025] shadow-lg mb-4">
-                    <span wire:loading.remove>Simpan Produk</span>
+                <button wire:click="update" wire:loading.attr="disabled" class="w-full bg-[#5B4636] text-white font-bold py-3 rounded-xl hover:bg-[#433025] shadow-lg mb-4 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span wire:loading.remove>Simpan Perubahan</span>
                     <span wire:loading>Menyimpan...</span>
                 </button>
                 
@@ -211,38 +189,46 @@
                 </label>
             </div>
 
+            {{-- 3. KATEGORI & HARGA DASAR --}}
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Kategori</label>
-                    <select wire:model="category_id" class="w-full bg-gray-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-[#5B4636]/20 text-sm">
+                    <select wire:model="category_id" class="w-full bg-gray-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-[#5B4636]/20 text-sm @error('category_id') ring-2 ring-red-500/50 bg-red-50 @enderror">
                         <option value="">Pilih Kategori</option>
                         @foreach($categories as $cat)
                             <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                         @endforeach
                     </select>
+                    @error('category_id') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                 </div>
                 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Harga Dasar</label>
-                        <input wire:model="base_price" type="number" class="w-full bg-gray-50 border-none rounded-xl p-3 text-sm">
+                        <input wire:model="base_price" type="number" class="w-full bg-gray-50 border-none rounded-xl p-3 text-sm @error('base_price') ring-2 ring-red-500/50 bg-red-50 @enderror">
+                        @error('base_price') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Berat (gr)</label>
-                        <input wire:model="weight" type="number" class="w-full bg-gray-50 border-none rounded-xl p-3 text-sm">
+                        <input wire:model="weight" type="number" class="w-full bg-gray-50 border-none rounded-xl p-3 text-sm @error('weight') ring-2 ring-red-500/50 bg-red-50 @enderror">
+                        @error('weight') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </div>
 
+            {{-- 4. GALERI PRODUK --}}
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <label class="block text-xs font-bold text-gray-500 uppercase mb-4">Galeri Produk</label>
                 
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                {{-- Error Global Upload --}}
+                @error('newImages') <span class="text-red-500 text-xs mb-2 block">{{ $message }}</span> @enderror
+                @error('newImages.*') <span class="text-red-500 text-xs mb-2 block">{{ $message }}</span> @enderror
+
+                <div class="grid grid-cols-4 gap-2 mb-4">
                     {{-- Loop Gambar Lama --}}
                     @foreach($oldImages as $img)
                         <div class="relative aspect-square rounded-lg overflow-hidden border border-gray-200 group">
                             <img src="{{ asset('storage/' . $img->image_path) }}" class="w-full h-full object-cover">
-                            {{-- Tombol Hapus Gambar Kecil --}}
                             <button type="button" wire:click="deleteOldImage({{ $img->id }})" class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
@@ -258,13 +244,15 @@
                     @endforeach
 
                     {{-- Input Upload --}}
-                    <label class="aspect-square flex flex-col items-center justify-center bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100">
-                        <input type="file" wire:model="newImages" multiple class="hidden">
-                        <span class="text-gray-400 text-xs">+ Foto</span>
+                    <label class="aspect-square flex flex-col items-center justify-center bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 @error('newImages') border-red-500 bg-red-50 @enderror">
+                        <input type="file" wire:model="newImages" multiple class="hidden" accept="image/png, image/jpeg, image/jpg, image/webp, image/svg+xml">
+                        
+                        <div wire:loading wire:target="newImages" class="text-xs text-[#5B4636] font-bold">...</div>
+                        <span wire:loading.remove wire:target="newImages" class="text-gray-400 text-xs">+ Foto</span>
                     </label>
                 </div>
+                <p class="text-[10px] text-gray-400">Klik ikon sampah untuk hapus foto lama.</p>
             </div>
-
         </div>
 
     </div>
