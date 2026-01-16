@@ -43,40 +43,12 @@
                 </div>
 
                 <div class="flex items-center gap-3 md:gap-5 w-full lg:w-auto justify-center md:justify-end">
-                    @auth
-                        <a href="" class="flex items-center gap-3 group">
-                            
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white">
-                                @if(auth()->user()->image_url)
-                                    <img src="{{ asset('storage/' . auth()->user()->image_url) }}" 
-                                        class="w-full h-full rounded-full object-cover border border-gray-200"
-                                        alt="{{ auth()->user()->name }}">
-                                @else
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=6B4F3B&color=fff" 
-                                        class="w-full h-full rounded-full"
-                                        alt="{{ auth()->user()->name }}">
-                                @endif
-                            </div>
-
-                            <div class="flex flex-col items-end hidden md:flex">
-                                <span class="text-sm font-bold text-brand-500 truncate max-w-[120px]">
-                                    {{ auth()->user()->name }}
-                                </span>
-                            </div>
-                        </a>
-                    @else
-                        <a href="">
-                            <x-button variant="outline" class="flex-1 lg:flex-none text-sm">
-                                Login
-                            </x-button>
-                        </a>
-
-                        <a href="">
-                            <x-button variant="solid" class="flex-1 lg:flex-none text-sm">
-                                Sign Up
-                            </x-button>
-                        </a>
-                    @endauth
+                    <a href="{{ route('') }}">
+                        <x-button variant="outline" class="flex-1 lg:flex-none text-sm">Login</x-button>
+                    </a>
+                    <a href="">
+                        <x-button variant="solid" class="flex-1 lg:flex-none text-sm">Sign Up</x-button>
+                    </a>
                 </div>
             </div>
         </div>
