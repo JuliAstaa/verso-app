@@ -95,6 +95,13 @@ Route::middleware(['auth', 'verified'])->group(function () { // Pake verified bi
     // 2. Halaman Fake Payment Gateway (Bayar Tipu-tipu)
     Route::get('/payment/{order}', PaymentPage::class)->name('payment.show');
 });
+Route::get('/product/{slug}', function ($slug) {
+    return view('pages.product-detail', ['slug' => $slug]);
+})->name('product.detail');
+
+Route::get('/category', function(){
+    return view('pages.product-category');
+})->name('product.category');
 
 Route::get('/register', function () {
     return view('pages.register');
@@ -105,14 +112,51 @@ Route::get('/login', function () {
 })->name('login');
 
 // --- PROSES REGISTER ---
-Route::post('/register-proses', function (Request $request) {
-    return redirect()->route('login')->with('success', 'Akun berhasil dibuat!');
-})->name('register.submit');
+// Route::post('/register-proses', function (Request $request) {
+//     return redirect()->route('login')->with('success', 'Akun berhasil dibuat!');
+// })->name('register.submit');
 
 // --- PROSES LOGIN ---
-Route::post('/login-proses', function (Request $request) {
-    return redirect()->route('home');
+// Route::post('/login-proses', function (Request $request) {
+//     return redirect()->route('home');
+// })->name('login.submit');
+
+// routes/web.php
+Route::post('/login-submit', function () {
+    return back()->with('error', 'This account has been suspended for violating community terms.');
 })->name('login.submit');
+
+Route::post('/register-submit', function () {
+    return back()->with('error', 'This username is already in use. Please choose a different one or try to sign in to your existing account.');
+})->name('register.submit');
+
+Route::get('/profile/bio', function () {
+    return view('pages.user-profile.profile'); // Nama file blade kamu (profile.blade.php)
+});
+
+Route::get('/profile/payment', function () {
+    return view('pages.user-profile.payment'); // Nama file blade kamu (profile.blade.php)
+});
+
+Route::get('/profile/transaction', function () {
+    return view('pages.user-profile.transaction'); // Nama file blade kamu (profile.blade.php)
+});
+
+Route::get('/profile/wishlist', function () {
+    return view('pages.user-profile.wishlist'); // Nama file blade kamu (profile.blade.php)
+});
+
+Route::get('/profile/address-list', function () {
+    return view('pages.user-profile.address-list'); // Nama file blade kamu (profile.blade.php)
+});
+
+Route::get('/profile/notification', function () {
+    return view('pages.user-profile.notif'); // Nama file blade kamu (profile.blade.php)
+});
+
+Route::get('/profile/security', function () {
+    return view('pages.user-profile.security'); // Nama file blade kamu (profile.blade.php)
+});
 
 // Route Admin
 // Route Tampilan Dashboard

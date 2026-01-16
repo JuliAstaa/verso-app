@@ -31,30 +31,52 @@
                     <a href="{{ url('/') }}">
                         <h1 class="uppercase text-3xl md:text-4xl">Verso</h1>
                     </a>
-                    <a href="" class="text-lg md:text-xl">Category</a>
+                    
+                    <livewire:navbar.category-dropdown />
+                    
                 </div>
 
                 <div class="flex flex-1 justify-between items-center gap-4 md:gap-8 w-full">
-                    <div class="w-full">
-                        <form class="flex items-center">
-                            <label for="simple-search" class="sr-only">Search</label>
-                            <div class="relative w-full">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 md:w-6 md:h-6 text-[#6B4F3B]" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <input type="text" id="simple-search" class="block w-full p-2 pl-10 text-sm text-[#6B4F3B] border border-[#6B4F3B] rounded-md bg-white focus:ring-1 focus:ring-[#6B4F3B] outline-none" placeholder="Search in verso" required="">
-                            </div>
-                        </form>
-                    </div>
+                    <livewire:navbar.navbar-search />
                     
                     <livewire:navbar.cart-badge />
                 </div>
 
                 <div class="flex items-center gap-3 md:gap-5 w-full lg:w-auto justify-center md:justify-end">
-                    <x-button variant="outline" class="flex-1 lg:flex-none text-sm">Login</x-button>
-                    <x-button variant="solid" class="flex-1 lg:flex-none text-sm">Sign Up</x-button>
+                    @auth
+                        <a href="" class="flex items-center gap-3 group">
+                            
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white">
+                                @if(auth()->user()->image_url)
+                                    <img src="{{ asset('storage/' . auth()->user()->image_url) }}" 
+                                        class="w-full h-full rounded-full object-cover border border-gray-200"
+                                        alt="{{ auth()->user()->name }}">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=6B4F3B&color=fff" 
+                                        class="w-full h-full rounded-full"
+                                        alt="{{ auth()->user()->name }}">
+                                @endif
+                            </div>
+
+                            <div class="flex flex-col items-end hidden md:flex">
+                                <span class="text-sm font-bold text-brand-500 truncate max-w-[120px]">
+                                    {{ auth()->user()->name }}
+                                </span>
+                            </div>
+                        </a>
+                    @else
+                        <a href="">
+                            <x-button variant="outline" class="flex-1 lg:flex-none text-sm">
+                                Login
+                            </x-button>
+                        </a>
+
+                        <a href="">
+                            <x-button variant="solid" class="flex-1 lg:flex-none text-sm">
+                                Sign Up
+                            </x-button>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>

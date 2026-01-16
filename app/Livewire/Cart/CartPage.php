@@ -16,7 +16,11 @@ class CartPage extends Component
     #[On('cart_updated')]
     public function refreshCart()
     {
-        $this->selectAllItems();
+        $allIds = $this->items()->pluck('id')->map(fn($id) => (string)$id)->toArray();
+
+        $this->selectedItems = array_values(array_unique(array_merge($this->selectedItems, $allIds)));
+
+        $this->syncSelectAllStatus();
     }
 
     public function mount()
@@ -28,8 +32,8 @@ class CartPage extends Component
     public function items()
     {
         return CartItem::whereHas('cart', fn($q) => $q->where('user_id', Auth::id()))
-            ->with('product')
-            ->get();
+        ->with(['productVariant.product', 'productVariant.color', 'productVariant.size']) 
+        ->get();
     }
 
     public function updatedSelectAll($value)
@@ -103,10 +107,17 @@ class CartPage extends Component
 
     public function removeSelected()
     {
+        if (empty($this->selectedItems)) return;
+
         CartItem::whereIn('id', $this->selectedItems)->delete();
+
         $this->selectedItems = [];
+        
         $this->selectAll = false;
+
         $this->dispatch('cart_updated');
+    
+        $this->dispatch('notify', message: 'Items removed successfully');
     }
 
     public function checkout()

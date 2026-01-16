@@ -23,7 +23,7 @@
 
                 <section class="space-y-4">
                     @foreach($this->items as $item)
-                        <div wire:key="item-container-{{ $item->id }}" 
+                        <div wire:key="cart-item-{{ $item->id }}" 
                              class="bg-white p-4 rounded-xl border shadow-sm flex flex-col gap-4 transition-all {{ in_array((string)$item->id, $selectedItems) ? 'border-[#6B4F3B]/30 bg-[#6B4F3B]/5' : 'border-gray-100' }}">
                             
                             <div class="flex gap-4">
@@ -35,20 +35,40 @@
                                            class="w-5 h-5 rounded border-gray-300 text-brand-500 focus:ring-brand-500 cursor-pointer">
                                 </div>
 
-                                <div class="w-20 h-20 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden border border-gray-100">
-                                    @if($item->product->image_url)
-                                        <img src="{{ asset($item->product->image_url) }}" 
+                                <div class="w-25 h-25 flex-shrink-0 bg-gray-50 rounded-md overflow-hidden border border-gray-100">
+                                    @if($item->productVariant->image_url)
+                                        <img src="{{ asset($item->productVariant->image_url) }}" 
                                              class="w-full h-full object-cover"
-                                             alt="{{ $item->product->name }}"
-                                             onerror="this.src='https://via.placeholder.com/100?text=No+Image'">
+                                             alt="{{ $item->productVariant->name }}">
                                     @else
-                                        <img src="https://via.placeholder.com/100?text=No+Image" class="w-full h-full object-cover opacity-50">
+                                        <div class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400 text-[11px] p-2">
+                                            No Image
+                                        </div>
                                     @endif
                                 </div>
 
                                 <div class="flex-grow">
-                                    <h3 class="text-sm font-semibold text-gray-700 leading-tight line-clamp-2 mb-1">{{ $item->product->name }}</h3>
-                                    <p class="font-bold text-brand-500 mt-1">IDR {{ number_format($item->price, 0, ',', '.') }}</p>
+                                    <h3 class="text-sm font-bold text-gray-800 leading-tight line-clamp-1 mb-1">
+                                        {{ $item->productVariant->product->name }}
+                                    </h3>
+
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        @if($item->productVariant->color)
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                                                Color: {{ $item->productVariant->color->name }}
+                                            </span>
+                                        @endif
+
+                                        @if($item->productVariant->size)
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-brand-50 text-brand-700 border border-brand-100">
+                                                Size: {{ $item->productVariant->size->name }}
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <p class="font-bold text-brand-600 mt-2 text-base">
+                                        IDR {{ number_format($item->price, 0, ',', '.') }}
+                                    </p>
                                 </div>
                             </div>
 

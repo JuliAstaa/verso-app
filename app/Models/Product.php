@@ -31,4 +31,14 @@ class Product extends Model
         return 'Rp '. number_format($this->price, 0, ',', '.');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class)->whereNull('parent_id');
+    }
+
+    public function averageRating()
+    {
+        return round($this->reviews()->avg('rating'), 1);
+    }
+
 }
