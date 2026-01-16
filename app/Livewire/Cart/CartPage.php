@@ -32,8 +32,8 @@ class CartPage extends Component
     public function items()
     {
         return CartItem::whereHas('cart', fn($q) => $q->where('user_id', Auth::id()))
-            ->with('productVariant.product')
-            ->get();
+        ->with(['productVariant.product', 'productVariant.color', 'productVariant.size']) 
+        ->get();
     }
 
     public function updatedSelectAll($value)

@@ -20,7 +20,7 @@
                     wire:key="product-card-{{ $product->id }}" 
                     class="group bg-white rounded-lg overflow-hidden border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col h-full"
                 >
-                    <a href="{{ route('pages.product-detail') }}" class="block">
+                    <a href="{{ route('product.detail', $product->slug) }}" class="block">
                         <div class="aspect-square w-full bg-gray-100 relative overflow-hidden">
                             @if($product->image_url)
                                 <img 

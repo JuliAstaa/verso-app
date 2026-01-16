@@ -20,9 +20,9 @@ Route::get('/', function(){
     return view('pages.landing');
 })->name('pages.home');
 
-Route::get('/product-detail', function(){
-    return view('pages.product-detail');
-})->name('pages.product-detail');
+Route::get('/product/{slug}', function ($slug) {
+    return view('pages.product-detail', ['slug' => $slug]);
+})->name('product.detail');
 
 Route::get('/category', function(){
     return view('pages.product-category');
