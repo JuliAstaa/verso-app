@@ -82,6 +82,7 @@ class BioData extends Component
     session()->flash('success', 'Link verifikasi baru sudah dikirim! Cek inbox/spam ya.');
 }
 
+
     public function render()
     {
         $user = Auth::user();

@@ -16,16 +16,16 @@ class CategorySeeder extends Seeder
     {
         // Daftar Kategori (Bisa lu tambah sesuka hati)
         $categories = [
-            'Electronics',
-            'Fashion Pria',
-            'Fashion Wanita',
-            'Gadget & Aksesoris',
-            'Kesehatan & Kecantikan',
-            'Perlengkapan Rumah',
-            'Hobi & Koleksi',
-            'Otomotif',
-            'Makanan & Minuman',
-            'Buku & Alat Tulis',
+            'T-Shirts',
+            'Shirts',
+            'Denim Pants',
+            'Hoodies & Sweatshirts',
+            'Jackets / Outerwear',
+            'Skirts',
+            'Dresses',
+            'Chinos',
+            'Sportswea',
+            'Knitwear',
         ];
 
         foreach ($categories as $name) {

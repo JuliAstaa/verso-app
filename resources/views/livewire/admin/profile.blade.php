@@ -21,12 +21,10 @@
                                 <img src="{{ $newAvatar->temporaryUrl() }}" class="w-full h-full object-cover">
                             @elseif ($avatar)
                                 {{-- Avatar Lama --}}
-                                <img src="{{ asset('storage/' . $avatar) }}" class="w-full h-full object-cover">
+                                <img class="w-full h-full object-cover" src="{{ Auth::user()->avatar }}" alt="">
                             @else
                                 {{-- Fallback Inisial --}}
-                                <div class="w-full h-full flex items-center justify-center bg-[#5B4636] text-white text-3xl font-bold">
-                                    {{ substr($name, 0, 2) }}
-                                </div>
+                                <img class="w-full h-full object-cover" src="{{ Auth::user()->avatar }}" alt="">
                             @endif
                         </div>
 

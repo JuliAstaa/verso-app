@@ -15,11 +15,7 @@
                 <td class="px-4 py-3">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-500 overflow-hidden">
-                            @if($customer->profile && $customer->profile->avatar)
-                                <img src="{{ Storage::url($customer->profile->avatar) }}" class="w-full h-full object-cover">
-                            @else
-                                {{ substr($customer->name, 0, 1) }}
-                            @endif
+                            <img class="w-full h-full object-cover" src="{{ $customer->avatar }}" alt="">
                         </div>
                         <div>
                             <div class="font-bold text-gray-800">{{ $customer->name }}</div>

@@ -26,21 +26,7 @@
             {{-- LEFT COLUMN: PROFILE IMAGE & BUTTON --}}
             <div class="w-full md:w-1/3 flex flex-col items-center">
                 <div class="w-48 aspect-square bg-brand-500 text-white font-extrabold rounded-xl overflow-hidden mb-4 border border-gray-100 shadow-sm flex items-center justify-center">
-                    @if($existingAvatar)
-                    
-                    {{-- A. Kalo Ada Foto --}}
-                    {{-- object-cover biar gambar ga gepeng kalau aslinya persegi panjang --}}
-                    <img src="{{ Storage::url($existingAvatar) }}" 
-                        alt="{{ Auth::user()->name }}" 
-                        class="w-full h-full object-cover">
-                
-                    @else
-                        
-                        {{-- B. Kalo Null (Fallback Inisial) --}}
-                        {{-- substr ambil 2 huruf pertama, strtoupper biar kapital semua --}}
-                        <span class="text-4xl">{{ strtoupper(substr($name, 0, 2)) }}</span>
-                    
-                    @endif
+                    <img class="w-full h-full object-cover" src="{{ Auth::user()->avatar }}" alt="">
                 </div>
                 
                 <div class="w-48">

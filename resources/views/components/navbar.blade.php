@@ -47,21 +47,7 @@
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open" @click.away="open = false" class="flex items-center gap-3 group focus:outline-none">
                                 <div class="w-10 h-10 rounded-full flex items-center justify-center text-white overflow-hidden border-2 border-transparent group-hover:border-brand-500 transition-all">
-                                    @if(Auth::user()->profile && Auth::user()->profile->avatar)
-                
-                                        {{-- A. Kalo Ada Foto --}}
-                                        {{-- object-cover biar gambar ga gepeng kalau aslinya persegi panjang --}}
-                                        <img src="{{ asset('storage/' . Auth::user()->profile->avatar) }}" 
-                                            alt="{{ Auth::user()->name }}" 
-                                            class="w-full h-full object-cover">
-                                    
-                                    @else
-                                        
-                                        {{-- B. Kalo Null (Fallback Inisial) --}}
-                                        {{-- substr ambil 2 huruf pertama, strtoupper biar kapital semua --}}
-                                        <span class="flex w-full h-full bg-brand-500 font-bold text-white items-center justify-center">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</span>
-                                    
-                                    @endif
+                                    <img class="w-full h-full object-cover" src="{{ Auth::user()->avatar }}" alt="">
                                 </div>
 
                                 <div class="flex flex-col items-start md:flex">
@@ -85,21 +71,7 @@
                                 
                                 <div class=" p-2 bg-gray-50/50 border-b border-gray-100 flex items-center gap-3">
                                     <div  class="w-12 h-12 rounded-full overflow-hidden border border-gray-200">
-                                        @if(Auth::user()->profile && Auth::user()->profile->avatar)
-                
-                                        {{-- A. Kalo Ada Foto --}}
-                                        {{-- object-cover biar gambar ga gepeng kalau aslinya persegi panjang --}}
-                                        <img src="{{ asset('storage/' . Auth::user()->profile->avatar) }}" 
-                                            alt="{{ Auth::user()->name }}" 
-                                            class="w-full h-full object-cover">
-                                    
-                                        @else
-                                            
-                                            {{-- B. Kalo Null (Fallback Inisial) --}}
-                                            {{-- substr ambil 2 huruf pertama, strtoupper biar kapital semua --}}
-                                            <span class="flex w-full h-full bg-brand-500 font-bold text-white items-center justify-center">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</span>
-                                        
-                                        @endif
+                                        <img class="w-full h-full object-cover" src="{{ Auth::user()->avatar }}" alt="">
                                     </div>
                                     <div class="overflow-hidden">
                                         <p class="text-sm font-bold text-gray-800 truncate">{{ auth()->user()->name }}</p>

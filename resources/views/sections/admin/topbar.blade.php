@@ -9,21 +9,7 @@
         <div class="w-10 h-10 rounded-full bg-[#5B4636] flex items-center justify-center text-white font-bold text-sm border-2 border-transparent hover:border-gray-200 transition overflow-hidden">
     
             {{-- LOGIC: Cek Relasi Profile & Kolom Avatar --}}
-            @if(Auth::user()->profile && Auth::user()->profile->avatar)
-                
-                {{-- A. Kalo Ada Foto --}}
-                {{-- object-cover biar gambar ga gepeng kalau aslinya persegi panjang --}}
-                <img src="{{ asset('storage/' . Auth::user()->profile->avatar) }}" 
-                    alt="{{ Auth::user()->name }}" 
-                    class="w-full h-full object-cover">
-            
-            @else
-                
-                {{-- B. Kalo Null (Fallback Inisial) --}}
-                {{-- substr ambil 2 huruf pertama, strtoupper biar kapital semua --}}
-                <span>{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</span>
-            
-            @endif
+            <img class="w-full h-full object-cover" src="{{ Auth::user()->avatar }}" alt="">
 
         </div>
         {{-- Teks Nama & Role --}}
@@ -51,7 +37,7 @@
         {{-- Header Menu (Info User) --}}
         <div class="px-4 py-3 border-b border-gray-50 flex items-center gap-3 mb-2">
             <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold">
-                 {{ substr(Auth::user()->name, 0, 2) }}
+                <img class="w-full rounded-full h-full object-cover" src="{{ Auth::user()->avatar }}" alt="">
             </div>
             <div class="overflow-hidden">
                 <p class="text-sm font-bold text-gray-800 truncate">{{ Auth::user()->name }}</p>
