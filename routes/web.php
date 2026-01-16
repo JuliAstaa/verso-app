@@ -116,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     
     // Logic Redirect Dashboard (Admin ke Admin, User ke Home)
     Route::get('/dashboard', function () {
@@ -128,8 +128,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Shopping Flow
     Route::get('/cart', fn() => view('pages.product-cart'))->name('pages.product-cart');
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-    Route::get('/payment/thank-you/{order}', PaymentPage::class)->name('payment.show');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware('verified');
+    Route::get('/payment/thank-you/{order}', PaymentPage::class)->name('payment.show')->middleware('verified');
 
     // User Profile (Static View Templates - Bawaan Frontend)
     Route::prefix('profile')->group(function() {

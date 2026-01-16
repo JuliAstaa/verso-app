@@ -13,7 +13,7 @@
 
                 {{-- Konten Utama Address List --}}
                 <main class="flex-1">
-                    @include('sections.profile.main.address-list')
+                    <livewire:front.customer-profile.adress-list>
                 </main>
 
             </div>

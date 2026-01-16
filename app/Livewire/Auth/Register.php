@@ -30,7 +30,7 @@ class Register extends Component
 
             Auth::login($user);
 
-            redirect()->route('admin.dashboard');
+            redirect()->route('dashboard');
         } catch (\Exception $e) {
             $this->addError('email', 'Registration failed: ' . $e->getMessage());
         }
