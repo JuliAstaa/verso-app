@@ -14,7 +14,7 @@
                 {{-- Bagian Kanan: Konten Utama --}}
                 <main class="w-full md:w-2/3">
                     {{-- Kita panggil section yang baru dibuat tadi --}}
-                    @include('sections.profile.sidebar.transaction-list')
+                    <livewire:front.customer.transaction-list>
                 </main>
 
             </div>
