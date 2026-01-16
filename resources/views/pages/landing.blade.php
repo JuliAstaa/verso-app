@@ -1,5 +1,5 @@
 <x-layouts.app title="Verso-App">
-    <x-navbar />
+    <x-navbar :dynamic="true" />
 
     @include('sections.landing.hero')
 
