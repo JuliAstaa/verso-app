@@ -1,4 +1,4 @@
-<div class="container mx-auto p-4 md:p-6">
+ <div class="container mx-auto p-4 md:p-6">
     <h1 class="text-2xl font-bold mb-4 text-gray-800">Your Cart</h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -142,6 +142,7 @@
 
                 <button 
                     @disabled(empty($selectedItems))
+                    wire:click="checkout"
                     class="w-full py-3 rounded-xl font-bold text-lg transition-all duration-300 shadow-md 
                     {{ empty($selectedItems) 
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 

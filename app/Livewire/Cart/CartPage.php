@@ -120,6 +120,20 @@ class CartPage extends Component
         $this->dispatch('notify', message: 'Items removed successfully');
     }
 
+    public function checkout()
+    {
+        if (empty($this->selectedItems)) {
+            // Kasih notif error biar user ngeh
+            $this->dispatch('swal:toast', [
+                'type' => 'error', 
+                'text' => 'Pilih minimal satu barang dulu ya!'
+            ]);
+            return;
+        }
+
+        return redirect()->route('checkout');
+    }
+
     public function render()
     {
         return view('livewire.cart.cart-page');
