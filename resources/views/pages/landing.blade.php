@@ -3,7 +3,7 @@
 
     @include('sections.landing.hero')
 
-    @include('sections.landing.categories')
+    <livewire:landing.categories />
     
     @include('sections.landing.product-section')
     

@@ -52,9 +52,9 @@ Route::get('/product/{slug}', function ($slug) {
 })->name('product.detail');
 
 // Halaman Kategori (Catalog)
-Route::get('/category', function(){
-    return view('pages.product-category');
-})->name('product.category'); 
+Route::get('/category/{c?}', function($c = null) {
+    return view('pages.product-category', ['c' => $c]);
+})->name('product.category');
 
 
 /*
@@ -133,7 +133,7 @@ Route::middleware(['auth'])->group(function () {
 
     // User Profile (Static View Templates - Bawaan Frontend)
     Route::prefix('profile')->group(function() {
-        Route::get('/bio', fn() => view('pages.user-profile.profile'));
+        Route::get('/bio', fn() => view('pages.user-profile.profile'))->name('user.profile');
         Route::get('/payment', fn() => view('pages.user-profile.payment'));
         Route::get('/transaction', fn() => view('pages.user-profile.transaction'));
         Route::get('/wishlist', fn() => view('pages.user-profile.wishlist'));
