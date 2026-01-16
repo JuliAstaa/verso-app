@@ -33,5 +33,9 @@
         </div>
 
         {{ $slot }}
+        @livewireScripts
+    
+        @include('components.sweet-alert')
+        <x-sweet-alert /> 
     </body>
 </html>

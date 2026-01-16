@@ -13,7 +13,7 @@
 
                 {{-- Konten Utama Address List --}}
                 <main class="flex-1">
-                    @include('sections.profile.main.security')
+                    <livewire:front.customer.update-password>
                 </main>
 
             </div>
