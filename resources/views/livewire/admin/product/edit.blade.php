@@ -2,7 +2,7 @@
     
     <div class="flex justify-between items-center mb-6">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Tambah Produk Baru</h1>
+            <h1 class="text-2xl font-bold text-gray-900">Edit Produk</h1>
             <p class="text-sm text-gray-500">Isi detail produk lengkap dengan varian.</p>
         </div>
         <a href="{{ route('admin.products.index') }}" wire:navigate class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm font-bold hover:bg-gray-50">
