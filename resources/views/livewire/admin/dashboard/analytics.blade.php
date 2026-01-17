@@ -49,6 +49,7 @@
                 <span class="text-gray-400 ml-2">vs last month</span>
             </div>
         </div>
+        
 
         {{-- Card 3: Orders --}}
         <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
@@ -85,19 +86,20 @@
             
             <div class="space-y-4">
                 @forelse($topProducts as $item)
-                    <div class="flex items-center gap-3">
-                        {{-- Image --}}
-                        <div class="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0 border border-gray-200">
-                            @if($item->productVariant->product->images->first())
-                                <img src="{{ Storage::url($item->productVariant->product->images->first()->image_path) }}" class="w-full h-full object-cover">
+                <div class="flex items-center gap-3">
+                    {{-- Image --}}
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0 border border-gray-200">
+                           
+                        @if($item->productVariant?->product?->images?->first())
+                                <img src="{{ Storage::url($item->productVariant?->product?->images?->first()->image_path) }}" class="w-full h-full object-cover">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-[10px] text-gray-400">No Img</div>
-                            @endif
+                            @endif 
                         </div>
                         
                         {{-- Info --}}
                         <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-bold text-gray-800 truncate">{{ $item->productVariant->product->name }}</h4>
+                            <h4 class="text-sm font-bold text-gray-800 truncate">{{ $item->productVariant?->product?->name ?? 'Produk Dihapus' }}</h4>
                             <p class="text-xs text-gray-500">
                                 {{ $item->productVariant->color->name ?? '-' }}, {{ $item->productVariant->size->name ?? '-' }}
                             </p>
