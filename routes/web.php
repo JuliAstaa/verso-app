@@ -129,6 +129,9 @@ Route::middleware(['auth'])->group(function () {
     // Shopping Flow
     Route::get('/cart', fn() => view('pages.product-cart'))->name('pages.product-cart');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware('verified');
+    Route::get('/payment/thank-you/test', function() {
+    dd('Route ini tembus!');
+});
     Route::get('/payment/thank-you/{order}', PaymentPage::class)->name('payment.show')->middleware('verified');
 
     // User Profile (Static View Templates - Bawaan Frontend)

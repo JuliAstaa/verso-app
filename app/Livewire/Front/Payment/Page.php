@@ -13,7 +13,7 @@ class Page extends Component
 
     public function mount(Order $order)
     {
-        if ($order->user_id !== Auth::id()) abort(403);
+        if ($order->user_id != Auth::id()) abort(403);
         if ($order->payment_status === 'paid') return redirect()->route('customer.orders.index'); // Ganti route sesuai history order kamu
         
         $this->order = $order;
