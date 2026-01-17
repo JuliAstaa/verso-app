@@ -63,12 +63,14 @@ class UserService
 
             // 2. Siapkan Data Profile
             $profileData = [
-                'phone' => $data['phone'] ?? null,
-                'birth_date' => $data['birth_date'] ?? null,
-                'gender' => $data['gender'] ?? null,
+                'phone'      => !empty($data['phone']) ? $data['phone'] : null,
+                
+                // 👇 INI KRUSIAL: Pastikan jadi NULL kalau kosong, jangan string ""
+                'birth_date' => !empty($data['birth_date']) ? $data['birth_date'] : null,
+                
+                'gender'     => !empty($data['gender']) ? $data['gender'] : null,
             ];
-
-            // 3. Handle Upload Foto (Jika ada file baru)
+                        // 3. Handle Upload Foto (Jika ada file baru)
             if ($avatar) {
                 // Hapus foto lama
                 if ($user->profile && $user->profile->avatar) {

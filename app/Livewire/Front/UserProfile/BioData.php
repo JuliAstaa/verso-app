@@ -44,7 +44,6 @@ class BioData extends Component
             'avatar' => 'nullable|image|max:2048',
         ]);
 
-
         // B. Lempar tugas "nyimpen" ke Kuli (UserService) 🏗️
         $userService->updateUserProfile($user, $validated, $this->avatar);
 
