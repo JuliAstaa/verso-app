@@ -1,9 +1,7 @@
-{{-- resources/views/sections/profile/bio-data-content.blade.php --}}
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden font-poppins">
     
     {{-- TOP TABS NAVIGATION --}}
     <div class="flex border-b border-gray-100 px-6">
-        {{-- Tab Aktif: Bio Data diberi warna brand dan border bawah --}}
         <a href="/profile/bio" class="px-6 py-4 text-sm font-bold text-brand-500 border-b-2 border-brand-500 -mb-[1px]">
             Bio Data
         </a>
@@ -24,12 +22,19 @@
             
             {{-- LEFT COLUMN: PROFILE IMAGE & BUTTON --}}
             <div class="w-full md:w-1/3 flex flex-col items-center">
-                <div class="w-48 aspect-square bg-gray-100 rounded-xl overflow-hidden mb-4 border border-gray-100 shadow-sm">
-                    <img src="https://ui-avatars.com/api/?name=Arya+Ganteng&background=74553d&color=fff" 
-                         class="w-full h-full object-cover" alt="Profile">
+                <div class="w-48 aspect-square bg-gray-100 rounded-xl overflow-hidden mb-4 border border-gray-100 shadow-sm flex items-center justify-center">
+                    @if($currentImage)
+                        <img src="{{ asset('storage/' . $currentImage) }}" class="w-full h-full object-cover" alt="Profile">
+                    @else
+                        {{-- Inisial Nama jika tidak ada foto --}}
+                        <div class="text-4xl font-bold text-brand-500">
+                            {{ strtoupper(substr($name, 0, 2)) }}
+                        </div>
+                    @endif
                 </div>
                 
                 <div class="w-48">
+                    {{-- @click ini akan sinkron ke @entangle di file pembungkus --}}
                     <x-button variant="solid" @click="openEditProfile = true" class="w-full !py-2.5 text-sm font-bold !no-underline !rounded-xl">
                         Edit Profile
                     </x-button>
@@ -51,15 +56,21 @@
                     <div class="space-y-6">
                         <div class="flex items-center">
                             <span class="text-sm text-gray-500 w-1/3">Name</span>
-                            <span class="text-sm font-bold text-gray-800">Arya Ganteng</span>
+                            <span class="text-sm font-bold text-gray-800">{{ $name }}</span>
                         </div>
                         <div class="flex items-center">
                             <span class="text-sm text-gray-500 w-1/3">Birth Date</span>
-                            <span class="text-sm text-gray-400 italic">Not set</span>
+                            @if($birth_date)
+                                <span class="text-sm font-bold text-gray-800">{{ \Carbon\Carbon::parse($birth_date)->format('d F Y') }}</span>
+                            @else
+                                <span class="text-sm text-gray-400 italic">Not set</span>
+                            @endif
                         </div>
                         <div class="flex items-center">
                             <span class="text-sm text-gray-500 w-1/3">Gender</span>
-                            <span class="text-sm text-gray-400 italic">Not set</span>
+                            <span class="text-sm {{ $gender ? 'font-bold text-gray-800' : 'text-gray-400 italic' }}">
+                                {{ $gender ?: 'Not set' }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -69,13 +80,17 @@
                     <div class="space-y-6">
                         <div class="flex items-center">
                             <span class="text-sm text-gray-500 w-1/3">Email</span>
-                            <span class="text-sm font-bold text-gray-800 truncate">aryagantengbngt@gmail.com</span>
+                            <span class="text-sm font-bold text-gray-800 truncate">{{ $email }}</span>
                         </div>
                         <div class="flex items-center">
                             <span class="text-sm text-gray-500 w-1/3">Phone Number</span>
                             <div class="flex items-center gap-2">
-                                <span class="text-sm font-bold text-gray-800">081234567</span>
-                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span class="text-sm {{ $phone_number ? 'font-bold text-gray-800' : 'text-gray-400 italic' }}">
+                                    {{ $phone_number ?: 'Not set' }}
+                                </span>
+                                @if($phone_number)
+                                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                @endif
                             </div>
                         </div>
                     </div>
