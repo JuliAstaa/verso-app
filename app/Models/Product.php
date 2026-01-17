@@ -36,6 +36,25 @@ class Product extends Model
         return $this->hasMany(ProductReview::class)->whereNull('parent_id');
     }
 
+    public function getSoldCountAttribute()
+    {
+        $variantIds = $this->variants->pluck('id');
+
+        return \App\Models\OrderItem::whereIn('product_variant_id', $variantIds)
+            ->whereHas('order', function($query) {
+                $query->whereIn('status', ['paid', 'shipped', 'completed']);
+            })
+            ->sum('quantity'); 
+    }
+
+    public function getRatingValueAttribute()
+    {
+
+        return $this->reviews()->count() > 0 
+            ? number_format($this->reviews()->avg('rating'), 1) 
+            : '0.0';
+    }
+
     public function averageRating()
     {
         return round($this->reviews()->avg('rating'), 1);

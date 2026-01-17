@@ -50,9 +50,9 @@
                 <div class="p-5 border shadow-xs rounded-xl bg-white" 
                     wire:key="review-{{ $review->id }}" 
                     x-data="{ openReplies: false }">
-                    
                     <div class="flex items-center gap-3 mb-3">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($review->user->name) }}" class="w-10 h-10 rounded-full">
+                        <img src="{{ $review->user->avatar }}" alt="{{ $review->user->avatar }}" class="w-10 h-10 rounded-full">
+                        
                         <div>
                             <p class="text-sm font-bold text-gray-900">{{ $review->user->name }}</p>
                             <p class="text-[10px] text-gray-400">{{ $review->created_at->diffForHumans() }}</p>
@@ -102,7 +102,7 @@
                         @foreach($review->replies as $reply)
                             <div class="py-4 border-t border-gray-200">
                                 <div class="flex items-center gap-2">
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($reply->user->name) }}" class="w-6 h-6 rounded-full">
+                                    <img src="{{ $review->user->avatar }}" alt="{{ $review->user->avatar }}" class="w-10 h-10 rounded-full">
                                     <span class="text-[11px] font-bold text-gray-900">{{ $reply->user->name }}</span>
                                     <span class="text-[9px] text-gray-400">. {{ $reply->created_at->diffForHumans() }}</span>
                                 </div>

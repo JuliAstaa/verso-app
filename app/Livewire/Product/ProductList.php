@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\OrderItem;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
@@ -17,7 +18,7 @@ class ProductList extends Component
     public $showLoadMore = true;
 
     public $showPagination = true;
-    
+
     public $limit = 12;
     public $columns = 6;
 
@@ -67,6 +68,16 @@ class ProductList extends Component
         }
     }
 
+
+    // Helper to format numbers (e.g., 1200 -> 1.2rb)
+    public function formatCompactNumber($number)
+    {
+        if ($number >= 1000) {
+            return number_format($number / 1000, 1) . 'k+'; // Indonesian "ribu"
+        }
+        return $number;
+    }
+
     public function addToCart($productId)
     {
         if (!Auth::check()) {
@@ -106,12 +117,17 @@ class ProductList extends Component
 
     public function render()
     {
-        $query = Product::query()->where('is_active', true);
+        // 1. Eager Load 'variants' dan 'reviews' biar ringan
+        $query = Product::query()
+            ->with(['variants', 'reviews']) 
+            ->where('is_active', true);
 
+        // 2. Filter Search
         if ($this->search) {
             $query->where('name', 'like', '%' . $this->search . '%');
         }
 
+        // 3. Filter Category
         if (!empty($this->selectedCategories)) {
             $categories = is_array($this->selectedCategories) 
                         ? array_filter($this->selectedCategories) 
@@ -122,8 +138,8 @@ class ProductList extends Component
             }
         }
 
-        $query->reorder();
-
+        // 4. Sorting
+        $query->reorder(); // Reset default order
         if ($this->sortOrder === 'price_high') {
             $query->orderBy('base_price', 'desc'); 
         } elseif ($this->sortOrder === 'price_low') {
@@ -134,14 +150,13 @@ class ProductList extends Component
             $query->orderBy('id', 'desc');
         }
 
+        // 5. Pagination & Count
         $totalCount = $query->count();
-
         $products = $query->paginate($this->limit);
 
+        // 6. Update UI State
         $this->dispatch('update-total-count', count: $totalCount);
-
         $this->showPagination = ($this->showPagination !== false);
-
         $this->showLoadMore = ($this->showLoadMore !== false) && ($products->count() < $totalCount);
 
         return view('livewire.product.product-list', [

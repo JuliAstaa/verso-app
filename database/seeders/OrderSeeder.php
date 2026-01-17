@@ -13,6 +13,9 @@ class OrderSeeder extends Seeder
 {
     public function run(): void
     {
+        // Tingkatkan memory limit biar nggak crash di tengah jalan
+        ini_set('memory_limit', '512M');
+
         $faker = Faker::create('id_ID');
 
         // Ambil Data Master
@@ -31,10 +34,10 @@ class OrderSeeder extends Seeder
             return;
         }
 
-        $this->command->info('🚀 Mulai mencetak 1.000 Order Masa Depan...');
+        $this->command->info('🚀 Mulai mencetak 10.000 Order Masa Depan... (Sabar ya, ini agak lama)');
 
-        // 🔥 LOOPING 1000 KALI 🔥
-        for ($i = 0; $i < 1000; $i++) { 
+        // 🔥 LOOPING 10.000 KALI 🔥
+        for ($i = 0; $i < 10000; $i++) { 
             
             // 1. Pilih Customer Acak
             $customerId = $customerIds->random();
@@ -65,9 +68,9 @@ class OrderSeeder extends Seeder
                 'updated_at' => $orderDate, 
             ]);
 
-            // 4. Isi Item Belanjaan (Random 1-5 jenis barang)
+            // 4. Isi Item Belanjaan (Random 1-3 jenis barang biar variatif tapi nggak overload)
             $grandTotal = 0;
-            $randomVariants = $variants->random(rand(1, 5));
+            $randomVariants = $variants->random(rand(1, 3));
 
             foreach($randomVariants as $variant) {
                 $qty = rand(1, 3);
@@ -92,12 +95,12 @@ class OrderSeeder extends Seeder
                 'total_price' => $grandTotal + $shippingPrice,
             ]);
 
-            // Progress bar biar gak bengong nungguinnya
+            // Progress bar update tiap 100 data
             if (($i + 1) % 100 == 0) {
                 $this->command->info("✅ Berhasil membuat " . ($i + 1) . " order...");
             }
         }
 
-        $this->command->info('🎉 SELESAI! 1.000 Order dari masa depan berhasil didatangkan!');
+        $this->command->info('🎉 SELESAI! 10.000 Order dari masa depan berhasil didatangkan!');
     }
 }

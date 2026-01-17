@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 
 class ProductDetail extends Component
@@ -16,6 +17,10 @@ class ProductDetail extends Component
     public $selectedSize;
     public $quantity = 1;
     public $currentVariant;
+
+    public $totalSold = 0;
+    public $averageRating = 0;
+    public $totalReviews = 0;
 
     public function mount($slug)
     {
@@ -31,6 +36,35 @@ class ProductDetail extends Component
             $this->selectedColor = $this->currentVariant->color->name ?? '';
             $this->selectedSize = $this->currentVariant->size->name ?? '';
         }
+
+        $this->calculateStats();
+    }
+
+    public function calculateStats()
+    {
+        $this->totalReviews = $this->product->reviews->count();
+
+        $this->averageRating = $this->totalReviews > 0 
+            ? number_format($this->product->reviews->avg('rating'), 1) 
+            : 0;
+
+        $variantIds = $this->product->variants->pluck('id');
+        
+
+        $this->totalSold = OrderItem::whereIn('product_variant_id', $variantIds)
+            ->whereHas('order', function($query) {
+                $query->whereIn('status', ['paid', 'shipped', 'completed']);
+            })
+            ->sum('quantity');
+    }
+
+    // Helper to format numbers (e.g., 1200 -> 1.2rb)
+    public function formatCompactNumber($number)
+    {
+        if ($number >= 1000) {
+            return number_format($number / 1000, 1) . 'k+'; // Indonesian "ribu"
+        }
+        return $number;
     }
 
     public function updatedSelectedColor()

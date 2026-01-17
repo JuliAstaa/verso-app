@@ -52,32 +52,26 @@
                         </p>
                         
                         <div class="flex items-center gap-1 text-[10px] text-gray-500 mb-3">
-                            <span class="text-yellow-400">★</span>
-                            <span>{{ $product->rating ?? '0.0' }}</span>
-                            <span class="mx-1 text-gray-300">|</span>
-                            <span>{{ $product->sold ?? '0' }} sold</span>
-                        </div>
+                            <div class="flex items-center gap-1 text-[10px] text-gray-500 mb-3">
+                                <span class="text-yellow-400">★</span>
+                                
+                                <span>{{ $product->rating_value }}</span> 
+
+                                <span class="mx-1 text-gray-300">|</span>
+                                <span>{{ $this->formatCompactNumber($product->sold_count) }} Sold</span>
+                            </div>
+                        </div>  
 
                         <div class="mt-auto">
-                            <x-button 
-                                variant="solid"
-                                wire:click="addToCart({{ $product->id }})"
-                                wire:loading.attr="disabled"
-                                wire:target="addToCart({{ $product->id }})"
-                                class="w-full py-2 rounded-lg text-[11px] font-bold transition-all flex items-center justify-center gap-2 bg-[#6B4F3B] hover:bg-[#5A4232] text-white border-none"
+                            <x-btn-loading 
+                                action="addToCart({{ $product->id }})" 
+                                loadingText="Adding..." 
+                                class="w-full py-2 bg-[#6B4F3B] text-white rounded-lg hover:bg-[#5A4232]"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
-                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-                                </svg>
+                                {{-- Masukin Icon Keranjang di sini --}}
                                 
-                                <span wire:loading.remove wire:target="addToCart({{ $product->id }})">
-                                    Add to Cart
-                                </span>
-                                <span wire:loading wire:target="addToCart({{ $product->id }})">
-                                    Adding...
-                                </span>
-                            </x-button>
+                                                    Add to Cart
+                            </x-btn-loading>
                         </div>
                     </div>
                 </div>

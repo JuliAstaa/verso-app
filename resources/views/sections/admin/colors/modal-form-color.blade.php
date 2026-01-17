@@ -12,7 +12,7 @@
         x-click.away="$wire.set('isModalOpen', false)" 
     >
         <div class="pt-8 pb-6 text-center">
-            <h2 class="text-2xl font-bold text-gray-800 tracking-tight">{{ $colorId ? 'Edit Warna' : 'Tambah Warna' }}</h2>
+            <h2 class="text-2xl font-bold text-gray-800 tracking-tight">{{ $colorId ? 'Edit Color' : 'New Color' }}</h2>
             <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">{{ $colorId ? 'Update Color Details' : 'Add New Color Variation' }}</p>
         </div>
 
@@ -54,29 +54,19 @@
             @endif
 
             <div class="pt-2 space-y-3">
-                <button 
-                    wire:click="save" 
-                    {{-- 1. Target Button: Biar tombol gak mati (disable) saat ngetik --}}
-                    wire:loading.attr="disabled"
-                    wire:target="save"
-                    class="w-full text-white bg-[#5B4636] hover:bg-[#433025] focus:ring-4 focus:ring-[#5B4636]/30 font-bold rounded-xl text-sm px-5 py-4 text-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                <x-btn-loading 
+                    action="save()" 
+                    loadingText="Saving..." 
+                    class="w-full bg-[#5B4636] text-white font-bold py-3 rounded-xl hover:bg-[#433025] shadow-lg mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {{-- 2. Target Span Utama: CUMA ilang kalau lagi 'save'. Kalau ngetik, dia tetep nampang. --}}
-                    <span wire:loading wire:target="save">
-                        {{ $colorId ? 'Update Perubahan' : 'Simpan Warna' }}
-                    </span>
-
-                    <!-- {{-- 3. Target Span Loading: CUMA muncul kalau lagi 'save'. --}}
-                    <span wire:loading wire:target="save">
-                        Menyimpan...
-                    </span> -->
-                </button>
+                    {{ $colorId ? 'Save Changes' : 'Create Color' }}
+                </x-btn-loading>
 
                 <button 
                     wire:click="cancel" 
                     class="w-full text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 hover:text-gray-700 font-semibold rounded-xl text-sm px-5 py-3.5 text-center transition-colors cursor-pointer"
                 >
-                    Batal
+                    Cancel
                 </button>
             </div>
         </div>
