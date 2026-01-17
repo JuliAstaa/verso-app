@@ -102,13 +102,23 @@
 
                 {{-- Action Buttons --}}
                 <div class="pt-4 flex gap-3 border-t border-gray-100">
-                    <button type="button" @click="$dispatch('close-modal')" class="w-1/3 py-2.5 rounded-xl text-sm font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition">
-                        Cancel
-                    </button>
-                    <button type="submit" class="w-2/3 py-2.5 rounded-xl text-sm font-bold text-white bg-[#5B4636] hover:bg-[#4a3a2d] transition shadow-lg shadow-[#5B4636]/20 flex items-center justify-center gap-2">
-                        <span>Save Address</span>
-                        
-                    </button>
+                    <div class="pt-4 w-full flex gap-3 border-t border-gray-100">
+                        <button 
+                            type="button" 
+                            @click="$dispatch('close-modal')" 
+                            class="w-full py-2.5 rounded-xl text-sm font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition"
+                        >
+                            Cancel
+                        </button>
+
+                        <x-btn-loading 
+                            action="save()" 
+                            loadingText="Saving..." 
+                            class="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-[#5B4636] hover:bg-[#4a3a2d] transition shadow-lg shadow-[#5B4636]/20 flex items-center justify-center gap-2"
+                        >
+                            <span>Save Address</span>
+                        </x-btn-loading>
+                    </div>
                 </div>
 
             </form>

@@ -121,9 +121,15 @@
                             </div>
 
                             {{-- Submit Button --}}
-                            <button type="submit" class="w-full bg-brand-500 hover:bg-brand-700 text-white font-bold py-3 rounded-lg transition-all shadow-md shadow-brand-500/20 active:scale-95 flex justify-center items-center gap-2 cursor-pointer">
-                                <span wire:target="updateOrder">Save Changes</span>
-                            </button>
+                     
+
+                            <x-btn-loading 
+                                action="updateOrder()" 
+                                loadingText="Updating Order Status" 
+                                class="w-full bg-[#5B4636] text-white font-bold py-3 rounded-xl hover:bg-[#433025] shadow-lg mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Save Changes
+                            </x-btn-loading>
 
                         </form>
                     </div>

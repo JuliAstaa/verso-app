@@ -89,8 +89,7 @@
                 <div class="flex items-center gap-3">
                     {{-- Image --}}
                     <div class="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0 border border-gray-200">
-                           
-                        @if($item->productVariant?->product?->images?->first())
+                            @if($item->productVariant?->product?->images?->first())
                                 <img src="{{ Storage::url($item->productVariant?->product?->images?->first()->image_path) }}" class="w-full h-full object-cover">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-[10px] text-gray-400">No Img</div>

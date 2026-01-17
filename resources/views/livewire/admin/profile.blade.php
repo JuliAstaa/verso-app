@@ -153,9 +153,16 @@
                 </div>
             </div>
 
-            <div class="flex justify-end pt-4 border-t border-gray-50">
-                <button type="submit" class="bg-[#5B4636] text-white px-6 py-2.5 rounded-lg text-sm font-bold hover:bg-[#4a3a2d] transition shadow-lg shadow-[#5B4636]/20 flex items-center gap-2 cursor-pointer">
-                    <span wire:target="updateProfile">Save Changes</span>
+            <div class="flex justify-end w-full pt-4 border-t border-gray-50">
+                    <div class="w-auto">
+                        <x-btn-loading 
+                            action="updateProfile()" 
+                            loadingText="Updating Profile" 
+                            class="bg-[#5B4636] text-white px-6 py-2.5 rounded-lg text-sm font-bold hover:bg-[#4a3a2d] transition shadow-lg shadow-[#5B4636]/20 flex items-center gap-2 cursor-pointer"
+                        >
+                            Save Changes
+                        </x-btn-loading>
+                    </div>
             </div>
         </form>
     </div>
@@ -212,9 +219,16 @@
             </div>
 
             <div class="flex justify-end pt-4 border-t border-gray-50">
-                <button type="submit" class="bg-gray-800 text-white px-6 py-2.5 rounded-lg text-sm font-bold hover:bg-gray-900 transition flex items-center gap-2 cursor-pointer">
-                    <span wire:target="updatePassword">Update Password</span>
-                </button>
+           
+                <div class="w-auto">
+                        <x-btn-loading 
+                            action="updatePassword()" 
+                            loadingText="Updating Password" 
+                            class="bg-gray-800 text-white px-6 py-2.5 rounded-lg text-sm font-bold hover:bg-gray-900 transition flex items-center gap-2 cursor-pointer"
+                        >
+                            Edit Password
+                        </x-btn-loading>
+                    </div>
             </div>
         </form>
     </div>

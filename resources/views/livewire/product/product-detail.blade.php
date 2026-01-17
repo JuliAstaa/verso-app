@@ -88,12 +88,16 @@
                     
                     <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-lg">
                         <div class="w-12 h-12 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
-                            @if($product->image_url)
-                                <img src="{{ $currentVariant->image_url ?? $product->image_url ?? 'https://placehold.co/125x125' }}" 
-                                    class="w-full h-full object-cover opacity-80"
-                                    alt="Selected Variant">
+                            @php
+                                $mainImage = $product->images->first();
+                            @endphp
+                            @if($mainImage)
+                                <img src="{{ Storage::url($mainImage->image_path) }}" 
+                                    alt="{{ $product->name }}" 
+                                    class="w-full h-full object-cover">
+                            
                             @else
-                                <div class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400 text-[5px] p-2">
+                                <div class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400 text-md p-2">
                                     No Image
                                 </div>
                             @endif
@@ -140,16 +144,22 @@
                         </span>
                     </div>
 
-                    <div class="flex gap-2 pt-2">
-                        <x-button variant="outline" class="flex-1 text-sm">Buy Now</x-button>
-                        <x-button wire:click="addToCart" 
-                                wire:loading.attr="disabled"
-                                variant="solid" 
-                                class="flex-1 text-sm bg-[#6B4F3B] hover:bg-[#5a4232] text-white"
-                                :disabled="($currentVariant->stock ?? 0) <= 0">
-                            <span wire:loading.remove wire:target="addToCart">Add to Cart</span>
-                            <span wire:loading wire:target="addToCart">Processing...</span>
-                        </x-button>
+                    <div class="flex items-center gap-3 pt-4">
+
+                        <button class="flex-1 h-12 border border-gray-300 text-gray-800 font-bold text-sm rounded-xl hover:bg-gray-50 transition-colors">
+                            Buy Now
+                        </button>
+
+                        <div class="flex-1"> 
+                            <x-btn-loading 
+                                action="addToCart()" 
+                                loadingText="Adding..." 
+                                class="w-full h-12 bg-[#6B4F3B] hover:bg-[#5a4232] text-white text-sm font-bold rounded-xl shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                :disabled="($currentVariant->stock ?? 0) <= 0"
+                            >
+                                Add to Cart
+                            </x-btn-loading>
+                        </div>
                     </div>
 
                     <div class="flex justify-between items-center text-sm font-bold text-black px-1 pt-2">
