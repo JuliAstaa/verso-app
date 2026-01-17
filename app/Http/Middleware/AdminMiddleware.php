@@ -13,7 +13,7 @@ class AdminMiddleware
     {
         // Kalau belum login atau ROLENYA BUKAN ADMIN -> Tendang!
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Halaman ini khusus Admin woi!');
+            return redirect()->route('dashboard');
         }
 
         return $next($request);

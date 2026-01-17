@@ -36,8 +36,11 @@
                                 </div>
 
                                 <div class="w-25 h-25 flex-shrink-0 bg-gray-50 rounded-md overflow-hidden border border-gray-100">
-                                    @if($item->productVariant->image_url)
-                                        <img src="{{ asset($item->productVariant->image_url) }}" 
+                                    @php
+                                        $image = $item->productVariant?->product?->images?->first();
+                                    @endphp
+                                    @if($image)
+                                        <img src="{{ Storage::url($image->image_path) }}" 
                                              class="w-full h-full object-cover"
                                              alt="{{ $item->productVariant->name }}">
                                     @else

@@ -1,7 +1,10 @@
 <div class="space-y-4">
     <div class="aspect-square bg-gray-50 rounded-sm overflow-hidden">
-        @if($product->image_url)
-            <img src="{{ $currentVariant->image_url ?? $product->image_url }}" 
+        @php
+            $mainImage = $product->images->first();
+        @endphp
+        @if($mainImage)
+            <img src="{{ Storage::url($mainImage->image_path) }}" 
                 alt="{{ $product->name }}" 
                 class="w-full h-full object-cover">
         
