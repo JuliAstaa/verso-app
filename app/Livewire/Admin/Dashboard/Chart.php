@@ -20,7 +20,11 @@ class Chart extends Component
             DB::raw('SUM(total_price) as total')
         )
         ->where('status', '!=', 'cancelled') // Jangan hitung yang batal
-        ->where('status', 'paid')     // Cuma hitung yang udah bayar (opsional)
+        ->where('status', 'paid')
+        ->whereBetween('created_at', [
+            now()->subDays(6)->startOfDay(), 
+            now()->endOfDay()
+        ])     // Cuma hitung yang udah bayar (opsional)
         ->where('created_at', '>=', Carbon::now()->subDays(7))
         ->groupBy('date')
         ->orderBy('date', 'ASC')

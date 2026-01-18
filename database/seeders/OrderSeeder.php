@@ -45,7 +45,7 @@ class OrderSeeder extends Seeder
 
             // 2. 🔥 LOGIC TANGGAL MASA DEPAN 🔥
             // Dari detik ini sampai 1 tahun ke depan
-            $orderDate = $faker->dateTimeBetween('now', '+1 year');
+            $orderDate = $faker->dateTimeBetween('-1 year', 'now');
             
             $status = $faker->randomElement(['pending', 'paid', 'shipped', 'completed', 'cancelled']);
 

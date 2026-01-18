@@ -33,8 +33,18 @@ class OrderService
             // 2. PINDAHIN CART -> ORDER ITEMS
             foreach ($cartItems as $item) {
                 // Harga ambil dari variant saat ini
-                $price = $item->productVariant->price; 
+                $variant = \App\Models\ProductVariant::find($item->product_variant_id);
+                $price = $variant->price; 
                 $subtotal = $item->quantity * $price;
+
+                if ($variant->stock < $item->quantity) {
+                    throw new \Exception("Stok untuk {$variant->product->name} tidak mencukupi!");
+                }
+                
+                $variant->update([
+                    'stock' => $variant->stock - $item->quantity
+                ]);
+
 
                 OrderItem::create([
                     'order_id'           => $order->id,
@@ -50,6 +60,8 @@ class OrderService
             $order->update([
                 'total_price' => $grandTotal + $data['shipping_cost']
             ]);
+
+            
 
             // Hapus isi keranjang user ini
             CartItem::where('cart_id', $cartItems->first()->cart_id)->delete();

@@ -102,7 +102,7 @@
                         @foreach($review->replies as $reply)
                             <div class="py-4 border-t border-gray-200">
                                 <div class="flex items-center gap-2">
-                                    <img src="{{ $review->user->avatar }}" alt="{{ $review->user->avatar }}" class="w-10 h-10 rounded-full">
+                                    <img src="{{ $reply->user->avatar }}" alt="{{ $reply->user->avatar }}" class="w-10 h-10 rounded-full">
                                     <span class="text-[11px] font-bold text-gray-900">{{ $reply->user->name }}</span>
                                     <span class="text-[9px] text-gray-400">. {{ $reply->created_at->diffForHumans() }}</span>
                                 </div>

@@ -98,13 +98,16 @@
             </div>
 
             {{-- BAGIAN 3: FOOTER BUTTONS --}}
-            <div class="pt-6 border-t border-gray-100 flex flex-row gap-4 mt-4">
-                <button type="button" wire:click="$set('openEditProfile', false)" class="flex-1 py-3 border border-gray-200 text-gray-600 font-bold rounded-xl hover:bg-gray-50 transition text-sm">
+            <div class="pt-6  border-t border-gray-100 flex flex-row gap-4 mt-4">
+                <button type="button" wire:click="$set('openEditProfile', false)" class="w-full py-3 border border-gray-200 text-gray-600 font-bold rounded-xl hover:bg-gray-50 transition text-sm">
                     Back
                 </button>
-                <button type="submit" class="flex-1 py-3 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-700 transition text-sm flex justify-center items-center gap-2 shadow-lg shadow-brand-600/20">
-                    <span wire:target="updateProfile">Save Changes</span>
-                </button>
+                <x-btn-loading 
+                    action="updateProfile()" 
+                    loadingText="Saving..." 
+                    class="w-full py-3 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-700 transition text-sm flex justify-center items-center gap-2 shadow-lg shadow-brand-600/20">
+                    Save Changes
+                </x-btn-loading>
             </div>
 
         </form>

@@ -41,7 +41,7 @@
                         <div class="relative group">
                             <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Receiver Contact</label>
                             <div class="flex items-center gap-2 border-b border-gray-200 py-2 group-focus-within:border-brand-500 transition-colors">
-                                <span class="font-bold text-gray-800 text-sm">{{ auth()->user()->name }}</span>
+                                <span class="font-bold text-gray-800 text-sm">{{ $receiverName }}</span>
                                 <span class="text-gray-300">|</span>
                                 <input wire:model="phone" type="text" class="flex-1 bg-transparent border-none p-0 text-sm focus:outline-0 text-gray-600 placeholder-gray-300" placeholder="Phone Number / WA">
                             </div>
@@ -60,10 +60,13 @@
                     </div>
 
                     {{-- Address Detail --}}
-                    <div class="relative group mt-4">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Address Details</label>
-                        <textarea wire:model="address" rows="2" class="w-full bg-gray-50/50 border border-gray-200 rounded-lg px-3 py-3 text-sm focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors placeholder-gray-400 resize-none" placeholder="Street name, house number, block, landmark..."></textarea>
-                        @error('address') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
+                    <div class="mt-4">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Address Details</label>
+                        <textarea 
+                            wire:model="address" 
+                            rows="3" 
+                            placeholder="Street name, house number, block..."
+                            class="w-full border-none p-0 text-sm text-gray-600 focus:ring-0 mt-1 bg-transparent resize-none"></textarea>
                     </div>
                 </div>
             </div>

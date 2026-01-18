@@ -10,12 +10,14 @@ use App\Models\Cart; // Sesuaikan model Cart kamu
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\OrderService;
 
 class Checkout extends Component
 {
     // 1. PROPERTY INPUTAN (Harus public biar bisa di wire:model)
     public $phone;
     public $address;
+    public $receiverName;
     public $courier = 'jne'; // Default value
     public $paymentMethod = 'bca'; // Default value
 
@@ -23,13 +25,34 @@ class Checkout extends Component
     // Fungsinya: Isi otomatis No HP & Alamat dari data user yg login
     public function mount()
     {
-        $user = Auth::user();
+    $user = Auth::user();
         
-        // Cek profile user, kalau ada isinya, kita pake. Kalau ga ada, kosongin.
-        $this->phone = $user->profile->phone ?? $user->phone ?? ''; 
-        $this->address = $user->profile->address ?? $user->address ?? '';
+        // 1. Cek apakah ada alamat yang baru dipilih dari session (modal navbar)
+        $sessionAddressId = session('shipping_address_id');
         
-        // Cek kalau keranjang kosong, tendang balik
+        // 2. Cari alamatnya (pake ID dari session, atau default user, atau alamat pertama)
+        $selectedAddress = $user->addresses()->where('id', $sessionAddressId)->first()
+            ?? $user->addresses()->where('is_default', true)->first()
+            ?? $user->addresses()->first();
+
+        // 3. Autofill ke property form
+        if ($selectedAddress) {
+            $this->receiverName = $selectedAddress->receiver_name;
+            $this->phone = $selectedAddress->phone;
+            $this->address = $selectedAddress->detail . "\n" . 
+                     $selectedAddress->village->name . ", " . 
+                     $selectedAddress->district->name. ", " .
+                     $selectedAddress->city->name . ", " . 
+                     $selectedAddress->province->name . " " . 
+                     $selectedAddress->postal_code;
+            
+        } else {
+            // Fallback kalau bener-bener gak punya alamat
+            $this->receiverName = $selectedAddress->receiver_name;
+            $this->phone = $user->phone ?? '';
+            $this->address = '';
+        }
+
         if ($this->cartItems->isEmpty()) {
             return redirect()->route('pages.product-cart');
         }
@@ -84,55 +107,34 @@ class Checkout extends Component
     }
 
     // 7. FUNGSI UTAMA: BAYAR SEKARANG
-    public function placeOrder()
+    public function placeOrder(OrderService $orderService)
     {
         $this->validate([
-            'phone' => 'required|numeric|digits_between:10,14',
-            'address' => 'required|min:10',
-            'courier' => 'required|in:jne,jnt,sicepat',
-            'paymentMethod' => 'required|in:bca,mandiri,qris',
-        ]); // Validation message disingkat biar gak kepanjangan
+        'phone' => 'required|numeric|digits_between:10,14',
+        'address' => 'required|min:10',
+        'courier' => 'required|in:jne,jnt,sicepat',
+        'paymentMethod' => 'required|in:bca,mandiri,qris',
+        ]);
 
-        $order = DB::transaction(function () {
+        // Data yang dibutuhin Service (Sesuaikan sama variabel di OrderService)
+        $data = [
+            'recipient_phone' => $this->phone,
+            'address' => $this->address,
+            'courier' => $this->courier,
+            'shipping_cost' => $this->shippingCost,
+        ];
+
+        try {
+            // 👇 INI DIA KUNCINYA! Panggil fungsi di Service yang udah kita benerin tadi
+            $order = $orderService->createOrder(Auth::user(), $data, $this->cartItems);
+
+            return redirect()->route('payment.show', ['order' => $order->id]);
             
-            // 1. Buat Header Order
-            $newOrder = Order::create([
-                'user_id' => Auth::id(),
-                'invoice_number' => 'INV/' . date('Ymd') . '/' . strtoupper(uniqid()),
-                'status' => 'pending', 
-                'total_price' => $this->grandTotal,
-                'shipping_price' => $this->shippingCost,
-                'shipping_courier' => $this->courier,
-                'shipping_address' => $this->address,
-                'recipient_phone' => $this->phone,
-                'recipient_name' => Auth::user()->name,
-                'payment_method' => $this->paymentMethod,
-            ]);
-
-            // 2. Pindahkan Item dari CartItem ke OrderItems
-            foreach ($this->cartItems as $item) {
-                // Cek stok dulu kalo mau lebih canggih, tapi skip dulu gapapa
-                OrderItem::create([
-                    'order_id' => $newOrder->id,
-                    'product_variant_id' => $item->product_variant_id, // Ambil dari CartItem
-                    'quantity' => $item->quantity,
-                    'price' => $item->productVariant->price, 
-                ]);
-            }
-
-            // 3. Hapus Keranjang Belanja (Header Cart)
-            // Kalau database kamu setting ON DELETE CASCADE, CartItem otomatis kehapus.
-            // Kalau nggak, hapus manual CartItem-nya dulu baru Cart-nya.
-            $cart = Cart::where('user_id', Auth::id())->first();
-            if($cart) {
-                // Opsional: $cart->cartItems()->delete(); 
-                $cart->delete(); 
-            }
-
-            return $newOrder;
-        });
-
-        return redirect()->route('payment.show', ['order' => $order->id]);
+        } catch (\Exception $e) {
+            // Kalau stok habis, bakal kena tangkap disini
+            $this->dispatch('notify', message: $e->getMessage());
+            return;
+        }
     }
 
     public function render()

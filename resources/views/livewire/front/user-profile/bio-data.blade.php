@@ -84,24 +84,14 @@
                                     @else
                                         <form method="POST" action="{{ route('verification.send') }}">
                                             @csrf
-                                            <div>
-                                                <button type="button" 
-                                                        wire:click="resendVerification"
-                                                        wire:loading.attr="disabled"
-                                                        class="text-xs font-bold text-red-500 hover:text-red-700 hover:underline cursor-pointer transition disabled:opacity-50 disabled:cursor-wait">
-                                                    
-                                                    {{-- Text Normal --}}
-                                                    <span wire:loading.remove wire:target="resendVerification">
-                                                        UNVERIFIED (RESEND?)
-                                                    </span>
-
-                                                    {{-- Text Pas Loading --}}
-                                                    <span wire:loading wire:target="resendVerification">
-                                                        SENDING...
-                                                    </span>
-                                                </button>
+                                            <div class="flex flex-col">
+                                                <x-btn-loading 
+                                                    action="resendVerification()" 
+                                                    loadingText="SENDING...." 
+                                                    class="text-xs font-bold text-red-500 hover:text-red-700 hover:underline cursor-pointer transition disabled:opacity-50 disabled:cursor-wait">
+                                                    Resend Verification
+                                                </x-btn-loading>
                                                 
-                                                {{-- Munculin Notif Sukses Kecil di Bawahnya --}}
                                                 @if (session('success'))
                                                     <div class="text-[10px] text-green-600 font-bold mt-1">
                                                         {{ session('success') }}
