@@ -37,7 +37,7 @@ class Checkout extends Component
 
         // 3. Autofill ke property form
         if ($selectedAddress) {
-            $this->receiverName = $selectedAddress->receiver_name;
+            $this->receiverName = $selectedAddress->receiver_name ?? '' ;
             $this->phone = $selectedAddress->phone;
             $this->address = $selectedAddress->detail . "\n" . 
                      $selectedAddress->village->name . ", " . 
@@ -48,7 +48,7 @@ class Checkout extends Component
             
         } else {
             // Fallback kalau bener-bener gak punya alamat
-            $this->receiverName = $selectedAddress->receiver_name;
+            $this->receiverName = $selectedAddress->receiver_name ?? '';
             $this->phone = $user->phone ?? '';
             $this->address = '';
         }
